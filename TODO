@@ -1,0 +1,3 @@
+can create proxy for classes implemented interface with methods annotated by @Timer
+can create proxy for classes not implemented interface with methods annotated by @Timer
+can create proxy for classes with method annotated by @Timer, and implemented interface with methods annotated by @Timer
