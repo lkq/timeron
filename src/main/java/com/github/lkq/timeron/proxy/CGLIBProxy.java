@@ -1,5 +1,6 @@
 package com.github.lkq.timeron.proxy;
 
+import com.github.lkq.timeron.TimerException;
 import com.github.lkq.timeron.TimerProxy;
 
 public class CGLIBProxy<T> implements TimerProxy<T> {
@@ -12,6 +13,6 @@ public class CGLIBProxy<T> implements TimerProxy<T> {
     @Override
     public T getProxy() {
         // TODO: pending implementation
-        return target;
+        throw new TimerException("Pending implementation");
     }
 }
