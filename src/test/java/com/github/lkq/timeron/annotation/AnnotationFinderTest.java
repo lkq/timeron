@@ -1,8 +1,6 @@
 package com.github.lkq.timeron.annotation;
 
-import com.github.lkq.timeron.family.Grandson;
-import com.github.lkq.timeron.family.Nephew;
-import com.github.lkq.timeron.family.Son;
+import com.github.lkq.timeron.family.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +10,8 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AnnotationFinderTest {
 
@@ -91,5 +91,29 @@ class AnnotationFinderTest {
         Method method = Son.class.getDeclaredMethod("grandpaNotAnnotated", String.class);
         List<Timer> annotations = annotationFinder.findAnnotations(method, Timer.class);
         assertThat(annotations.size(), is(0));
+    }
+
+    @Test
+    void willReturnTrueIfAnnotationPresentInClass() {
+        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Son.class, Timer.class);
+        assertTrue(present);
+    }
+
+    @Test
+    void willReturnTrueIfAnnotatedMethodPresentInClassHierarchy() {
+        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Granddaughter.class, Timer.class);
+        assertTrue(present);
+    }
+
+    @Test
+    void willReturnFalseIfAnnotatedMethodAbsentInClassHierarchy() {
+        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(PetDog.class, Timer.class);
+        assertFalse(present);
+    }
+
+    @Test
+    void willReturnFalseIfAnnotatedMethodAbsentInParentClassButPresentInParentInterface() {
+        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Nephew.class, Timer.class);
+        assertFalse(present);
     }
 }

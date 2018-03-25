@@ -25,4 +25,17 @@ public class AnnotationFinder {
         // TODO: pending implementation
         return Collections.emptyList();
     }
+
+    public boolean annotatedMethodPresentInClassHierarchy(Class<?> clz, Class<? extends Annotation> annotationClz) {
+        for (Method method : clz.getDeclaredMethods()) {
+            if (method.getAnnotation(Timer.class) != null) {
+                return true;
+            }
+        }
+        Class<?> superclass = clz.getSuperclass();
+        if (superclass != null) {
+            return annotatedMethodPresentInClassHierarchy(superclass, annotationClz);
+        }
+        return false;
+    }
 }
