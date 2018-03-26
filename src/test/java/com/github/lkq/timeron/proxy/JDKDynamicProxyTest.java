@@ -1,6 +1,5 @@
 package com.github.lkq.timeron.proxy;
 
-import com.github.lkq.timeron.Timer;
 import com.github.lkq.timeron.family.Father;
 import com.github.lkq.timeron.family.Son;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ class JDKDynamicProxyTest {
 
     @Test
     void canProxyIfInterfaceMethodAnnotatedWithTimer() {
-        Father proxy = new Timer().on(new Son("Kingson"));
+        Father proxy = new JDKDynamicProxy<>(new Son("Kingson")).getProxy();
         assertThat(proxy.fatherAnnotated("fatherAnnotated"), is("fatherAnnotated"));
         assertThat(proxy.grandpaAnnotated("grandpaAnnotated"), is("grandpaAnnotated"));
     }
