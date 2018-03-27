@@ -12,6 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class AnnotationFinderTest {
 
@@ -95,25 +96,69 @@ class AnnotationFinderTest {
 
     @Test
     void willReturnTrueIfAnnotationPresentInClass() {
+        assertAnnotationOnAnyDeclaredMethods(Son.class, true);
         boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Son.class, Timer.class);
         assertTrue(present);
     }
 
     @Test
+    void willReturnFalseIfAnnotationAbsentInClass() {
+        assertAnnotationOnAnyDeclaredMethods(Dog.class, false);
+        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Dog.class, Timer.class);
+        assertFalse(present);
+    }
+
+    @Test
     void willReturnTrueIfAnnotatedMethodPresentInClassHierarchy() {
+        Class clz = Granddaughter.class;
+        while (clz != null && !clz.isInterface()) {
+            assertAnnotationOnAnyDeclaredMethods(clz, true);
+            clz = clz.getSuperclass();
+        }
         boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Granddaughter.class, Timer.class);
         assertTrue(present);
     }
 
     @Test
     void willReturnFalseIfAnnotatedMethodAbsentInClassHierarchy() {
-        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(PetDog.class, Timer.class);
+        Class clz = Dog.class.getSuperclass();
+        while (clz != null && !clz.isInterface()) {
+            assertAnnotationOnAnyDeclaredMethods(clz, false);
+            clz = clz.getSuperclass();
+        }
+        boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Dog.class, Timer.class);
         assertFalse(present);
     }
 
     @Test
-    void willReturnFalseIfAnnotatedMethodAbsentInParentClassButPresentInParentInterface() {
+    void willReturnFalseIfAnnotatedMethodAbsentInSuperClassButPresentInParentInterface() {
+        Class clz = Dog.class.getSuperclass();
+        while (clz != null) {
+            if (!clz.isInterface()) {
+                assertAnnotationOnAnyDeclaredMethods(clz, false);
+            } else {
+                assertAnnotationOnAnyDeclaredMethods(clz, true);
+            }
+            clz = clz.getSuperclass();
+        }
+
         boolean present = annotationFinder.annotatedMethodPresentInClassHierarchy(Nephew.class, Timer.class);
         assertFalse(present);
+    }
+
+    private void assertAnnotationOnAnyDeclaredMethods(Class clz, boolean present) {
+        if (clz.equals(Object.class)) {
+            return;
+        }
+        boolean annotationPresent = false;
+        for (Method method : clz.getDeclaredMethods()) {
+            if (method.getAnnotation(Timer.class) != null) {
+                annotationPresent = true;
+            }
+        }
+        if (annotationPresent != present) {
+            String status = present ? "present" : "absent";
+            fail("pre-condition not met, expect @Timer " + status + " in class: " + clz.getName());
+        }
     }
 }

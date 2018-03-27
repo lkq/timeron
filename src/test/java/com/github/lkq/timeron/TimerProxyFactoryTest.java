@@ -2,7 +2,7 @@ package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.annotation.AnnotationFinder;
 import com.github.lkq.timeron.annotation.Timer;
-import com.github.lkq.timeron.family.PetDog;
+import com.github.lkq.timeron.family.Dog;
 import com.github.lkq.timeron.proxy.CGLIBProxy;
 import com.github.lkq.timeron.proxy.JDKDynamicProxy;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,15 +27,15 @@ class TimerProxyFactoryTest {
 
     @Test
     void canCreateJDKDynamicProxy() {
-        given(annotationFinder.annotatedMethodPresentInClassHierarchy(PetDog.class, Timer.class)).willReturn(false);
-        TimerProxy<PetDog> proxy = proxyFactory.createProxy(new PetDog());
+        given(annotationFinder.annotatedMethodPresentInClassHierarchy(Dog.class, Timer.class)).willReturn(false);
+        TimerProxy<Dog> proxy = proxyFactory.createProxy(new Dog());
         assertTrue(proxy instanceof JDKDynamicProxy);
     }
 
     @Test
     void canCreateCGLIBProxy() {
-        given(annotationFinder.annotatedMethodPresentInClassHierarchy(PetDog.class, Timer.class)).willReturn(true);
-        TimerProxy<PetDog> proxy = proxyFactory.createProxy(new PetDog());
+        given(annotationFinder.annotatedMethodPresentInClassHierarchy(Dog.class, Timer.class)).willReturn(true);
+        TimerProxy<Dog> proxy = proxyFactory.createProxy(new Dog());
         assertTrue(proxy instanceof CGLIBProxy);
     }
 }
