@@ -2,7 +2,7 @@ package com.github.lkq.timeron.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,16 +12,31 @@ public class AnnotationFinder {
         if (method == null || annotationClz == null) {
             return Collections.emptyList();
         }
+        List<T> annotations = new ArrayList<>();
         T annotation = method.getDeclaredAnnotation(annotationClz);
         if (annotation != null) {
-            return Arrays.asList(annotation);
-        } else {
-            return searchParent(method, annotationClz);
+            annotations.add(annotation);
         }
+        annotations.addAll(searchAnnotationInClassHierarchy(method.getDeclaringClass().getSuperclass(), method, annotationClz));
+        return annotations;
     }
 
-    private <T extends Annotation> List<T> searchParent(Method method, Class<T> annotationClz) {
+    private <T extends Annotation> List<T> searchAnnotationInClassHierarchy(Class<?> clz, Method method, Class<T> annotationClz) {
 
+        if (clz != null && clz != Object.class) {
+            try {
+                List<T> annotations = new ArrayList<>();
+                Method superMethod = clz.getDeclaredMethod(method.getName(), method.getParameterTypes());
+                T annotation = superMethod.getDeclaredAnnotation(annotationClz);
+                if (annotation != null) {
+                    annotations.add(annotation);
+                }
+                annotations.addAll(searchAnnotationInClassHierarchy(clz.getSuperclass(), method, annotationClz));
+                return annotations;
+            } catch (NoSuchMethodException ignored) {
+
+            }
+        }
         // TODO: pending implementation
         return Collections.emptyList();
     }

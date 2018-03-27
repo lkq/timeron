@@ -5,7 +5,7 @@ import com.github.lkq.timeron.annotation.Timer;
 
 import java.util.logging.Logger;
 
-public class Son implements Father, Mother {
+public class Son extends Mother implements Father {
     private static Logger logger = Logger.getLogger(Son.class.getName());
 
     public Son(String name) {

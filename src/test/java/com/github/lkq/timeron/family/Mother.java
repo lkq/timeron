@@ -2,10 +2,14 @@ package com.github.lkq.timeron.family;
 
 import com.github.lkq.timeron.annotation.Timer;
 
-public interface Mother {
+public class Mother {
 
     @Timer(name = "motherAnnotated")
-    String motherAnnotated(String arg);
+    String motherAnnotated(String arg) {
+        return arg;
+    }
 
-    String motherNotAnnotated(String arg);
+    String motherNotAnnotated(String arg) {
+        return arg;
+    }
 }

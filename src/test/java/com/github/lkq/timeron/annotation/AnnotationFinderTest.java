@@ -147,7 +147,7 @@ class AnnotationFinderTest {
     }
 
     private void assertAnnotationOnAnyDeclaredMethods(Class clz, boolean present) {
-        if (clz.equals(Object.class)) {
+        if (clz == null || clz == Object.class) {
             return;
         }
         boolean annotationPresent = false;
