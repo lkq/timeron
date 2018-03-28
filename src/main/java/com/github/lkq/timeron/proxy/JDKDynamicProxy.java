@@ -14,6 +14,6 @@ public class JDKDynamicProxy<T> implements TimerProxy<T> {
 
     public T getProxy() {
         Class<?>[] interfaces = target.getClass().getInterfaces();
-        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader(), interfaces, new TimerInvocationHandler(target));
+        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader(), interfaces, new JDKInvocationHandler(target));
     }
 }
