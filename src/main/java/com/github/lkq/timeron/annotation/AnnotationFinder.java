@@ -18,14 +18,33 @@ public class AnnotationFinder {
             annotations.add(annotation);
         }
         annotations.addAll(searchAnnotationInClassHierarchy(method.getDeclaringClass().getSuperclass(), method, annotationClz));
+        annotations.addAll(searchAnnotationInInterfaceHierarchy(method.getDeclaringClass().getInterfaces(), method, annotationClz));
+        return annotations;
+    }
+
+    private <T extends Annotation> List<T> searchAnnotationInInterfaceHierarchy(Class<?>[] interfaces, Method method, Class<T> annotationClz) {
+
+        List<T> annotations = new ArrayList<>();
+        for (Class<?> iface : interfaces) {
+            try {
+                Method ifaceMethod = iface.getDeclaredMethod(method.getName(), method.getParameterTypes());
+                T annotation = ifaceMethod.getDeclaredAnnotation(annotationClz);
+                if (annotation != null) {
+                    annotations.add(annotation);
+                }
+            } catch (NoSuchMethodException ignored) {
+            }
+            annotations.addAll(searchAnnotationInInterfaceHierarchy(iface.getInterfaces(), method, annotationClz));
+        }
+
         return annotations;
     }
 
     private <T extends Annotation> List<T> searchAnnotationInClassHierarchy(Class<?> clz, Method method, Class<T> annotationClz) {
 
+        List<T> annotations = new ArrayList<>();
         if (clz != null && clz != Object.class) {
             try {
-                List<T> annotations = new ArrayList<>();
                 Method superMethod = clz.getDeclaredMethod(method.getName(), method.getParameterTypes());
                 T annotation = superMethod.getDeclaredAnnotation(annotationClz);
                 if (annotation != null) {
@@ -37,8 +56,7 @@ public class AnnotationFinder {
 
             }
         }
-        // TODO: pending implementation
-        return Collections.emptyList();
+        return annotations;
     }
 
     public boolean annotatedMethodPresentInClassHierarchy(Class<?> clz, Class<? extends Annotation> annotationClz) {
