@@ -3,11 +3,11 @@ package com.github.lkq.timeron.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class TimerInvocationHandler implements InvocationHandler {
+public class JDKInvocationHandler implements InvocationHandler {
 
     private Object target;
 
-    public TimerInvocationHandler(Object target) {
+    public JDKInvocationHandler(Object target) {
         this.target = target;
     }
 
