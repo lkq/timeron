@@ -6,7 +6,7 @@ Going to build a simple framework for measuring method call performance using AO
 ### Designed Features
 
 
-#### 1. with annotation
+#### 1. use with annotation
 
     public interface UserService {
         @Timer(name = "getUser")
@@ -26,11 +26,11 @@ Going to build a simple framework for measuring method call performance using AO
     // method execution time will be measured
     timedService.getUser("kingson");
 
-#### 2. annotation free
+#### 2. without annotation
 
     Timer timer = new Timer();
-    UserSerivce service = timer.stub(UserSerivceImpl.class)
-    timer.intercept(service.getUser(any()), "getUser");
+    UserSerivce service = timer.intercept(UserSerivce.class)
+    timer.measure(service.getUser(any()), "getUser");
 
     UserService timedService = timer.on(new UserServiceImpl())
 
@@ -47,6 +47,6 @@ send stats to persistent storage when the timer name match with "pattern", e.g i
 expose stats with api
 
     // get method execution time stats in csv format
-    String csvStats = timer.get("csv");
-    // get method execution time stats in csv format
-    String jsonStats = timer.get("json");
+    String csvStats = timer.getCsv("timerName");
+    // get method execution time stats in json format
+    String jsonStats = timer.getJson("timerName");

@@ -25,14 +25,22 @@ public class Timer {
     }
 
     /**
-     * return a Dynamic Proxy for target, only the method declared in iface will be intercepted
-     * @param target
-     * @param iface
-     * @param <I>
-     * @param <C>
+     * setup a class for interception
+     * @param clz
+     * @param <T>
      * @return
      */
-    public <I, C extends I> I on(C target, Class<I> iface) {
+    public <T> T intercept(Class<T> clz) {
+        throw new TimerException("Pending Implementation");
+    }
+
+    /**
+     * measure method call times
+     * @param methodCall
+     * @param timerName
+     * @param <T>
+     */
+    public <T> void measure(T methodCall, String timerName) {
         throw new TimerException("Pending Implementation");
     }
 }
