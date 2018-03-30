@@ -1,13 +1,16 @@
 package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.annotation.AnnotationFinder;
+import com.github.lkq.timeron.measure.InvocationTimers;
 
 public class Timer {
 
     private final TimerProxyFactory proxyFactory;
+    private final InvocationTimers invocationTimers;
 
     public Timer() {
-        proxyFactory = new TimerProxyFactory(new AnnotationFinder());
+        invocationTimers = new InvocationTimers();
+        proxyFactory = new TimerProxyFactory(new AnnotationFinder(), invocationTimers);
     }
 
     /**

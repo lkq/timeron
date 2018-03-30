@@ -3,6 +3,7 @@ package com.github.lkq.timeron;
 import com.github.lkq.timeron.annotation.AnnotationFinder;
 import com.github.lkq.timeron.annotation.Timer;
 import com.github.lkq.timeron.family.Dog;
+import com.github.lkq.timeron.measure.InvocationTimers;
 import com.github.lkq.timeron.proxy.CGLIBProxy;
 import com.github.lkq.timeron.proxy.JDKDynamicProxy;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +19,13 @@ class TimerProxyFactoryTest {
     private TimerProxyFactory proxyFactory;
     @Mock
     private AnnotationFinder annotationFinder;
+    @Mock
+    private InvocationTimers invocationTimers;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        proxyFactory = new TimerProxyFactory(annotationFinder);
+        proxyFactory = new TimerProxyFactory(annotationFinder, invocationTimers);
     }
 
     @Test
