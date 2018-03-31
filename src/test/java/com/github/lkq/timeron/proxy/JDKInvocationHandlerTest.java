@@ -26,7 +26,7 @@ class JDKInvocationHandlerTest {
 
     static class TestClass {
         String measuredMethod(String arg) {
-            return arg;
+            return "measuring: " + arg;
         }
     }
 
@@ -45,7 +45,7 @@ class JDKInvocationHandlerTest {
 
         Object retVal = handler.invoke(null, measuredMethod, new Object[]{"arg"});
 
-        assertThat(retVal, is("arg"));
+        assertThat(retVal, is("measuring: arg"));
     }
 
     @Test
@@ -58,7 +58,7 @@ class JDKInvocationHandlerTest {
 
         Object retVal = handler.invoke(null, measuredMethod, new Object[]{"arg"});
 
-        assertThat(retVal, is("arg"));
+        assertThat(retVal, is("measuring: arg"));
         verify(invocationTimer, times(1)).record(anyLong(), anyLong());
     }
 }
