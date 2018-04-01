@@ -1,4 +1,4 @@
-package com.github.lkq.timeron.family;
+package com.github.lkq.timeron.hierarchy;
 
 import com.github.lkq.timeron.annotation.Timer;
 

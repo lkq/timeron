@@ -1,4 +1,4 @@
-package com.github.lkq.timeron.family;
+package com.github.lkq.timeron.hierarchy;
 
 public class Dog extends Pet implements Barkable {
     public String petDogNotAnnotated(String arg) {

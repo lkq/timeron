@@ -18,7 +18,7 @@ public class TimerProxyFactory {
         if (canUseJDKProxy(target)) {
             return new JDKDynamicProxy<>(target, invocationTimers);
         }
-        return new CGLIBProxy<>(target);
+        return new CGLIBProxy<>(target, invocationTimers);
     }
 
     private <T> boolean canUseJDKProxy(T target) {

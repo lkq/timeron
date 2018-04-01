@@ -1,5 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
+import com.github.lkq.timeron.measure.InvocationTimer;
+import com.github.lkq.timeron.measure.InvocationTimers;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -7,14 +9,28 @@ import java.lang.reflect.Method;
 
 public class CGLibMethodInterceptor implements MethodInterceptor{
     private Object target;
+    private InvocationTimers invocationTimers;
 
-    public <T> CGLibMethodInterceptor(T target) {
-
+    public <T> CGLibMethodInterceptor(T target, InvocationTimers invocationTimers) {
         this.target = target;
+        this.invocationTimers = invocationTimers;
     }
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        return method.invoke(target, args);
+        InvocationTimer invocationTimer = getTimer(method);
+        if (invocationTimer != null) {
+            long startTime = System.nanoTime();
+            Object retVal = method.invoke(target, args);
+            long stopTime = System.nanoTime();
+            invocationTimer.record(startTime, stopTime);
+            return retVal;
+        } else {
+            return method.invoke(target, args);
+        }
+    }
+
+    private InvocationTimer getTimer(Method method) {
+        return invocationTimers.get(method);
     }
 }

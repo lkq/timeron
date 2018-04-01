@@ -2,7 +2,7 @@ package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.annotation.AnnotationFinder;
 import com.github.lkq.timeron.annotation.Timer;
-import com.github.lkq.timeron.family.Dog;
+import com.github.lkq.timeron.hierarchy.Dog;
 import com.github.lkq.timeron.measure.InvocationTimers;
 import com.github.lkq.timeron.proxy.CGLIBProxy;
 import com.github.lkq.timeron.proxy.JDKDynamicProxy;
