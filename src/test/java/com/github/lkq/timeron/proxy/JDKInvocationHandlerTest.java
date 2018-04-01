@@ -1,7 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.InvocationTimers;
+import com.github.lkq.timeron.measure.TimerConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,7 +20,7 @@ class JDKInvocationHandlerTest {
 
     private JDKInvocationHandler handler;
     @Mock
-    private InvocationTimers invocationTimers;
+    private TimerConfig timerConfig;
     @Mock
     private InvocationTimer invocationTimer;
 
@@ -38,10 +38,10 @@ class JDKInvocationHandlerTest {
     @Test
     void willPassThroughInvocationIfNoTimerDefined() throws Throwable {
 
-        handler = new JDKInvocationHandler(new TestClass(), invocationTimers);
+        handler = new JDKInvocationHandler(new TestClass(), timerConfig);
         Method measuredMethod = TestClass.class.getDeclaredMethod("measuredMethod", String.class);
 
-        given(invocationTimers.get(measuredMethod)).willReturn(null);
+        given(timerConfig.getTimer(measuredMethod)).willReturn(null);
 
         Object retVal = handler.invoke(null, measuredMethod, new Object[]{"arg"});
 
@@ -51,10 +51,10 @@ class JDKInvocationHandlerTest {
     @Test
     void willMeasureInvocationIfTimerDefined() throws Throwable {
 
-        handler = new JDKInvocationHandler(new TestClass(), invocationTimers);
+        handler = new JDKInvocationHandler(new TestClass(), timerConfig);
         Method measuredMethod = TestClass.class.getDeclaredMethod("measuredMethod", String.class);
 
-        given(invocationTimers.get(measuredMethod)).willReturn(invocationTimer);
+        given(timerConfig.getTimer(measuredMethod)).willReturn(invocationTimer);
 
         Object retVal = handler.invoke(null, measuredMethod, new Object[]{"arg"});
 

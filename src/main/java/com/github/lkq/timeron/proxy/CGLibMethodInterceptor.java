@@ -1,7 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.InvocationTimers;
+import com.github.lkq.timeron.measure.TimerConfig;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -9,11 +9,11 @@ import java.lang.reflect.Method;
 
 public class CGLibMethodInterceptor implements MethodInterceptor{
     private Object target;
-    private InvocationTimers invocationTimers;
+    private TimerConfig timerConfig;
 
-    public <T> CGLibMethodInterceptor(T target, InvocationTimers invocationTimers) {
+    public <T> CGLibMethodInterceptor(T target, TimerConfig timerConfig) {
         this.target = target;
-        this.invocationTimers = invocationTimers;
+        this.timerConfig = timerConfig;
     }
 
     @Override
@@ -31,6 +31,6 @@ public class CGLibMethodInterceptor implements MethodInterceptor{
     }
 
     private InvocationTimer getTimer(Method method) {
-        return invocationTimers.get(method);
+        return timerConfig.getTimer(method);
     }
 }

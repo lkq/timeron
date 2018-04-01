@@ -4,10 +4,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InvocationTimers {
+public class TimerConfig {
     private Map<Method, InvocationTimer> timers = new HashMap<>();
 
-    public InvocationTimer get(Method method) {
+    public InvocationTimer getTimer(Method method) {
         return timers.get(method);
     }
 }

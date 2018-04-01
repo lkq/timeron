@@ -1,7 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.InvocationTimers;
+import com.github.lkq.timeron.measure.TimerConfig;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,11 +9,11 @@ import java.lang.reflect.Method;
 public class JDKInvocationHandler implements InvocationHandler {
 
     private Object target;
-    private InvocationTimers invocationTimers;
+    private TimerConfig timerConfig;
 
-    public JDKInvocationHandler(Object target, InvocationTimers invocationTimers) {
+    public JDKInvocationHandler(Object target, TimerConfig timerConfig) {
         this.target = target;
-        this.invocationTimers = invocationTimers;
+        this.timerConfig = timerConfig;
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -30,6 +30,6 @@ public class JDKInvocationHandler implements InvocationHandler {
     }
 
     private InvocationTimer getTimer(Method method) {
-        return invocationTimers.get(method);
+        return timerConfig.getTimer(method);
     }
 }
