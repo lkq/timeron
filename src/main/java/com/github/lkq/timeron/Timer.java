@@ -1,15 +1,15 @@
 package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.annotation.AnnotationFinder;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.config.InterceptContext;
+import com.github.lkq.timeron.config.InterceptorFactory;
 
 public class Timer {
 
     private final TimerProxyFactory proxyFactory;
-    private final TimerConfig timerConfig;
+    private final InterceptorFactory interceptorFactory = new InterceptorFactory(new InterceptContext());
 
     public Timer() {
-        timerConfig = new TimerConfig();
         proxyFactory = new TimerProxyFactory(new AnnotationFinder());
     }
 
@@ -34,7 +34,7 @@ public class Timer {
      * @return
      */
     public <T> T intercept(Class<T> clz) {
-        throw new TimerException("Pending Implementation");
+        return interceptorFactory.create(clz);
     }
 
     /**
