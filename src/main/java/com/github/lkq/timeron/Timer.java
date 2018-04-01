@@ -3,11 +3,12 @@ package com.github.lkq.timeron;
 import com.github.lkq.timeron.annotation.AnnotationFinder;
 import com.github.lkq.timeron.config.InterceptContext;
 import com.github.lkq.timeron.config.Interceptor;
+import com.github.lkq.timeron.measure.TimerConfig;
 
 public class Timer {
 
     private final TimerProxyFactory proxyFactory;
-    private final InterceptContext context = new InterceptContext(new Interceptor());
+    private final InterceptContext context = new InterceptContext(new Interceptor(new TimerConfig()));
 
     public Timer() {
         proxyFactory = new TimerProxyFactory(new AnnotationFinder());

@@ -10,4 +10,8 @@ public class TimerConfig {
     public InvocationTimer getTimer(Method method) {
         return timers.get(method);
     }
+
+    public void addTimer(Method method, InvocationTimer invocationTimer) {
+        this.timers.put(method, invocationTimer);
+    }
 }
