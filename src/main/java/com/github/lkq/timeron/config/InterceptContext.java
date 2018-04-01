@@ -1,14 +1,42 @@
 package com.github.lkq.timeron.config;
 
-import java.lang.reflect.Method;
+import com.github.lkq.timeron.Reporter;
+import com.github.lkq.timeron.TimerException;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.Factory;
+import net.sf.cglib.proxy.MethodInterceptor;
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
 
 public class InterceptContext {
-    private boolean interceptInProgress;
-    public void interceptBegin(Method method) {
-        interceptInProgress = true;
+
+    private Interceptor interceptor;
+    private Objenesis objenesis = new ObjenesisStd();
+
+    public InterceptContext(Interceptor interceptor) {
+        this.interceptor = interceptor;
     }
 
-    public void interceptEnd(String name) {
-        interceptInProgress = false;
+    public <T> T intercept(Class<T> clz) {
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(clz);
+        enhancer.setCallbackFilter(method -> 0);
+        enhancer.setCallbackType(interceptor.getClass());
+
+        Class proxyClz = enhancer.createClass();
+
+        T proxyInstance = (T) objenesis.newInstance(proxyClz);
+
+        ((Factory) proxyInstance).setCallbacks(new MethodInterceptor[]{interceptor});
+        return proxyInstance;
+    }
+
+    public void finishInterception() {
+        try {
+            interceptor.finishInterception();
+        } catch (TimerException e) {
+            new Reporter().missingMethodInvocation();
+            throw e;
+        }
     }
 }

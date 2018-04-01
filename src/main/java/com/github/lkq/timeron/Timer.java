@@ -2,12 +2,12 @@ package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.annotation.AnnotationFinder;
 import com.github.lkq.timeron.config.InterceptContext;
-import com.github.lkq.timeron.config.InterceptorFactory;
+import com.github.lkq.timeron.config.Interceptor;
 
 public class Timer {
 
     private final TimerProxyFactory proxyFactory;
-    private final InterceptorFactory interceptorFactory = new InterceptorFactory(new InterceptContext());
+    private final InterceptContext context = new InterceptContext(new Interceptor());
 
     public Timer() {
         proxyFactory = new TimerProxyFactory(new AnnotationFinder());
@@ -34,16 +34,15 @@ public class Timer {
      * @return
      */
     public <T> T intercept(Class<T> clz) {
-        return interceptorFactory.create(clz);
+        return context.intercept(clz);
     }
 
     /**
-     * measure method call times
-     * @param methodCall
-     * @param timerName
+     * setup measured method call
+     * @param beginInterception
      * @param <T>
      */
-    public <T> void measure(T methodCall, String timerName) {
-        throw new TimerException("Pending Implementation");
+    public <T> void measure(T beginInterception) {
+        context.finishInterception();
     }
 }
