@@ -14,4 +14,8 @@ public class TimerConfig {
     public void addTimer(Method method, InvocationTimer invocationTimer) {
         this.timers.put(method, invocationTimer);
     }
+
+    public Map<Method, InvocationTimer> getTimers() {
+        return timers;
+    }
 }

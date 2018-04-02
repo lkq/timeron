@@ -11,4 +11,11 @@ public class InvocationTimer {
             totalTime += stopTime - startTime;
         }
     }
+
+    public long avg() {
+        if (invocationCount > 0) {
+            return totalTime / invocationCount;
+        }
+        return -1;
+    }
 }

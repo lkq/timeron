@@ -9,7 +9,8 @@ import com.github.lkq.timeron.measure.TimerConfig;
 public class Timer {
 
     private final TimerProxyFactory proxyFactory;
-    private final InterceptContext context = new InterceptContext(new Interceptor(new TimerConfig()), new ProxyFactory());
+    private final TimerConfig timerConfig = new TimerConfig();
+    private final InterceptContext context = new InterceptContext(new Interceptor(timerConfig), new ProxyFactory());
 
     public Timer() {
         proxyFactory = new TimerProxyFactory(new AnnotationFinder());
@@ -45,5 +46,10 @@ public class Timer {
      */
     public <T> void measure(T beginInterception) {
         context.finishInterception();
+    }
+
+    public String getStats() {
+        ReportBuilder reportBuilder = new ReportBuilder();
+        return reportBuilder.buildJSON(timerConfig.getTimers());
     }
 }
