@@ -22,6 +22,9 @@ public class Interceptor implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        if (interceptInProgress) {
+            throw new TimerException("unfinished interception detected on " + this.method);
+        }
         this.method = method;
         this.interceptInProgress = true;
         return null;
