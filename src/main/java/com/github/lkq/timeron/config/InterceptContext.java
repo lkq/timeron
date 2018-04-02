@@ -12,9 +12,15 @@ public class InterceptContext {
 
     private Interceptor interceptor;
     private Objenesis objenesis = new ObjenesisStd();
+    private ProxyFactory proxyFactory;
 
-    public InterceptContext(Interceptor interceptor) {
+    public InterceptContext(Interceptor interceptor, ProxyFactory proxyFactory) {
         this.interceptor = interceptor;
+        this.proxyFactory = proxyFactory;
+    }
+
+    public <T> T createProxy(T target) {
+        return proxyFactory.create(target, interceptor.getTimerConfig());
     }
 
     public <T> T intercept(Class<T> clz) {

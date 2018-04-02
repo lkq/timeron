@@ -34,4 +34,8 @@ public class Interceptor implements MethodInterceptor {
         timerConfig.addTimer(method, new InvocationTimer());
         interceptInProgress = false;
     }
+
+    public TimerConfig getTimerConfig() {
+        return timerConfig;
+    }
 }
