@@ -44,6 +44,10 @@ public class Son extends Mother implements Father {
         return "tagInSon-" + arg;
     }
 
+    public String fromSonTagInGrandson(String arg) {
+        return "fromSonTagInGrandson-" + arg;
+    }
+
     @Override
     public String tagInGrandma(String arg) {
         return "tagInGrandma-" + arg;
@@ -75,5 +79,11 @@ public class Son extends Mother implements Father {
     @Override
     public String fromGrandpaTagInSon(String arg) {
         return "fromGrandpaTagInSon-" + arg;
+    }
+
+    @Timer(name = "fromMotherTagInSon")
+    @Override
+    public String fromMotherTagInSon(String arg) {
+        return "fromMotherTagInSon-" + arg;
     }
 }

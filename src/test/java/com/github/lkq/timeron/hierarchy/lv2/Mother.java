@@ -21,7 +21,6 @@ public abstract class Mother implements Grandma {
         return "tagInMotherTagInSon-" + arg;
     }
 
-    @Override
     public String fromMotherTagInSon(String arg) {
         return "fromMotherTagInSon-" + arg;
     }

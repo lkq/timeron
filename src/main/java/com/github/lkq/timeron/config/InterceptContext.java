@@ -1,6 +1,6 @@
 package com.github.lkq.timeron.config;
 
-import com.github.lkq.timeron.Reporter;
+import com.github.lkq.timeron.ErrorReporter;
 import com.github.lkq.timeron.TimerException;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
@@ -41,7 +41,7 @@ public class InterceptContext {
         try {
             interceptor.finishInterception();
         } catch (TimerException e) {
-            new Reporter().missingMethodInvocation();
+            new ErrorReporter().missingMethodInvocation();
             throw e;
         }
     }

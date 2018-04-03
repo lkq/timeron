@@ -12,6 +12,4 @@ public interface Grandma {
     @Timer(name = "tagInGrandmaTagInSon")
     String tagInGrandmaTagInSon(String arg);
 
-    String fromMotherTagInSon(String arg);
-
 }
