@@ -18,4 +18,12 @@ public class InvocationTimer {
         }
         return -1;
     }
+
+    public long total() {
+        return totalTime;
+    }
+
+    public long count() {
+        return invocationCount;
+    }
 }

@@ -17,12 +17,17 @@ public class ReportBuilder {
                     .append("{")
                     .append("\"").append(method.getDeclaringClass().getName()).append(".").append(method.getName()).append("\"").append(":")
                     .append("{")
+                    .append("\"total\":")
+                    .append(timer.total())
+                    .append(",")
+                    .append("\"count\":")
+                    .append(timer.count())
+                    .append(",")
                     .append("\"avg\":")
                     .append(timer.avg())
                     .append("}}");
             comma = ",";
         }
-
         json.append("]");
         return json.toString();
     }
