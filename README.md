@@ -6,7 +6,7 @@ Going to build a simple framework for measuring method call performance using AO
 ### Designed Features
 
 
-#### 1. use with annotation
+#### 1. use with annotation1
 
     public interface UserService {
         @Timer(name = "getUser")
