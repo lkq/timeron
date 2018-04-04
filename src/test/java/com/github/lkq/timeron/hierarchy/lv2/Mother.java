@@ -7,7 +7,7 @@ public abstract class Mother implements Grandma {
 
     @Timer(name = "tagInMother")
     public String tagInMother(String arg) {
-        return arg;
+        return "tagInMother-" + arg;
     }
 
     @Timer(name = "tagInGrandmaTagInMother")

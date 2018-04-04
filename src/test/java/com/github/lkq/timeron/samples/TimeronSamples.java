@@ -1,8 +1,10 @@
 package com.github.lkq.timeron.samples;
 
 import com.github.lkq.timeron.Timer;
+import com.github.lkq.timeron.hierarchy.lv2.Mother;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import org.json.JSONException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -39,11 +41,69 @@ public class TimeronSamples {
         execute(() -> kingson.tagInSon("test"), "tagInSon-test", 10);
 
         String stats = timer.getStats();
-        logger.info("stats:" + stats);
+        logger.info("actual:" + stats);
         JSONAssert.assertEquals("[{\"com.github.lkq.timeron.hierarchy.lv3.Son.tagInSon\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
                         new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.tagInSon.total", (o1, o2) -> ((int)o2) > 0),
                         new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.tagInSon.avg", (o1, o2) -> ((int)o2) > 0)
+                ));
+    }
+
+    @Test
+    void willMeasurePerformanceOnInterceptedSuperClassMethodUsingChildClass() throws JSONException {
+        Timer timer = new Timer();
+        Son son = timer.intercept(Son.class);
+        timer.measure(son.tagInMother(""));
+
+        Son kingson = timer.on(new Son("kingson"));
+
+        execute(() -> kingson.tagInMother("test"), "tagInMother-test", 10);
+
+        String stats = timer.getStats();
+        logger.info("actual:" + stats);
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.hierarchy.lv2.Mother.tagInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+                new CustomComparator(JSONCompareMode.STRICT,
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv2.Mother.tagInMother.total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv2.Mother.tagInMother.avg", (o1, o2) -> ((int)o2) > 0)
+                ));
+    }
+
+    @Disabled("implementation not ready yet")
+    @Test
+    void willMeasurePerformanceOnInterceptedSuperClassMethodUsingSuperClass() throws JSONException {
+        Timer timer = new Timer();
+        Mother mother = timer.intercept(Mother.class);
+        timer.measure(mother.fromMotherTagInSon(""));
+
+        Son kingson = timer.on(new Son("kingson"));
+
+        execute(() -> kingson.fromMotherTagInSon("test"), "fromMotherTagInSon-test", 10);
+
+        String stats = timer.getStats();
+        logger.info("actual:" + stats);
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.hierarchy.lv3.Son.fromMotherTagInSon\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+                new CustomComparator(JSONCompareMode.STRICT,
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.fromMotherTagInSon.total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.fromMotherTagInSon.avg", (o1, o2) -> ((int)o2) > 0)
+                ));
+    }
+
+    @Test
+    void willMeasurePerformanceOnInterceptedSuperClassMethodBeingOverride() throws JSONException {
+        Timer timer = new Timer();
+        Son son = timer.intercept(Son.class);
+        timer.measure(son.fromMotherTagInSon(""));
+
+        Son kingson = timer.on(new Son("kingson"));
+
+        execute(() -> kingson.fromMotherTagInSon("test"), "fromMotherTagInSon-test", 10);
+
+        String stats = timer.getStats();
+        logger.info("actual:" + stats);
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.hierarchy.lv3.Son.fromMotherTagInSon\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+                new CustomComparator(JSONCompareMode.STRICT,
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.fromMotherTagInSon.total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.fromMotherTagInSon.avg", (o1, o2) -> ((int)o2) > 0)
                 ));
     }
 
@@ -56,7 +116,7 @@ public class TimeronSamples {
         execute(() -> kingson.fromSonTagInGrandson("test"), "fromSonTagInGrandson-test", 10);
 
         String stats = timer.getStats();
-        logger.info("stats:" + stats);
+        logger.info("actual:" + stats);
         JSONAssert.assertEquals("[]", stats,true);
     }
 }
