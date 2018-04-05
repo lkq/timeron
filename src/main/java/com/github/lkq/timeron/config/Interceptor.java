@@ -1,8 +1,8 @@
 package com.github.lkq.timeron.config;
 
 import com.github.lkq.timeron.TimerException;
-import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorder;
+import com.github.lkq.timeron.measure.TimeRecorders;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -10,14 +10,14 @@ import java.lang.reflect.Method;
 
 public class Interceptor implements MethodInterceptor {
 
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
 
     private boolean interceptInProgress;
 
     private Method method;
 
-    public Interceptor(TimerConfig timerConfig) {
-        this.timerConfig = timerConfig;
+    public Interceptor(TimeRecorders timeRecorders) {
+        this.timeRecorders = timeRecorders;
     }
 
     @Override
@@ -34,11 +34,11 @@ public class Interceptor implements MethodInterceptor {
         if (!interceptInProgress) {
             throw new TimerException("interception not started");
         }
-        timerConfig.addTimer(method, new InvocationTimer());
+        timeRecorders.addTimer(method, new TimeRecorder());
         interceptInProgress = false;
     }
 
-    public TimerConfig getTimerConfig() {
-        return timerConfig;
+    public TimeRecorders getTimeRecorders() {
+        return timeRecorders;
     }
 }

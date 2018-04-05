@@ -2,7 +2,7 @@ package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.hierarchy.lv2.Father;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +14,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class JDKDynamicProxyTest {
 
     @Mock
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
 
     @BeforeEach
     void setUp() {
@@ -23,7 +23,7 @@ class JDKDynamicProxyTest {
 
     @Test
     void canProxyIfInterfaceMethodAnnotatedWithTimer() {
-        Father proxy = new JDKDynamicProxy<>(new Son("Kingson"), timerConfig).getProxy();
+        Father proxy = new JDKDynamicProxy<>(new Son("Kingson"), timeRecorders).create();
         assertThat(proxy.tagInFather("test"), is("tagInFather-test"));
         assertThat(proxy.tagInGrandpa("test"), is("tagInGrandpa-test"));
     }

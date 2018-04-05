@@ -2,7 +2,7 @@ package com.github.lkq.timeron.measure;
 
 import org.junit.jupiter.api.Test;
 
-class InvocationTimerTest {
+class TimeRecorderTest {
 
     @Test
     void canCreateTimerWithClassAndMethod() {

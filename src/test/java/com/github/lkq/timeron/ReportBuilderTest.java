@@ -1,7 +1,7 @@
 package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.hierarchy.lv3.Son;
-import com.github.lkq.timeron.measure.InvocationTimer;
+import com.github.lkq.timeron.measure.TimeRecorder;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class ReportBuilderTest {
 
     private ReportBuilder reportBuilder;
     @Mock
-    private InvocationTimer tagInSonTimer;
+    private TimeRecorder tagInSonTimer;
 
     @BeforeEach
     void setUp() {
@@ -28,7 +28,7 @@ class ReportBuilderTest {
 
     @Test
     void canBuildReportFromTimers() throws NoSuchMethodException, JSONException {
-        HashMap<Method, InvocationTimer> timers = new HashMap<>();
+        HashMap<Method, TimeRecorder> timers = new HashMap<>();
         timers.put(Son.class.getMethod("tagInSon", String.class), tagInSonTimer);
         given(tagInSonTimer.avg()).willReturn(1234L);
         given(tagInSonTimer.total()).willReturn(2345L);

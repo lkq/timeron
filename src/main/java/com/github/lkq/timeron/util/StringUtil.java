@@ -19,4 +19,19 @@ public class StringUtil {
 
         return signature.toString();
     }
+
+    public static String toString(Method method) {
+        StringBuilder keyBuilder = new StringBuilder(100)
+                .append(method.getDeclaringClass().getName())
+                .append(".")
+                .append(method.getName())
+                .append("(");
+        String comma = "";
+        for (Class<?> type : method.getParameterTypes()) {
+            keyBuilder.append(comma)
+                    .append(type.getSimpleName());
+        }
+        keyBuilder.append(")");
+        return keyBuilder.toString();
+    }
 }

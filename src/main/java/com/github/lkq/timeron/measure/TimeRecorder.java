@@ -1,6 +1,6 @@
 package com.github.lkq.timeron.measure;
 
-public class InvocationTimer {
+public class TimeRecorder {
 
     private long totalTime = 0;
     private long invocationCount = 0;

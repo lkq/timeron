@@ -3,12 +3,12 @@ package com.github.lkq.timeron;
 import com.github.lkq.timeron.config.InterceptContext;
 import com.github.lkq.timeron.config.Interceptor;
 import com.github.lkq.timeron.config.ProxyFactory;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorders;
 
 public class Timer {
 
-    private final TimerConfig timerConfig = new TimerConfig();
-    private final InterceptContext context = new InterceptContext(new Interceptor(timerConfig), new ProxyFactory());
+    private final TimeRecorders timeRecorders = new TimeRecorders();
+    private final InterceptContext context = new InterceptContext(new Interceptor(timeRecorders), new ProxyFactory(timeRecorders));
 
     /**
      * return a proxy object for target, Dynamic Proxy or CGLib proxy will be created
@@ -44,6 +44,6 @@ public class Timer {
 
     public String getStats() {
         ReportBuilder reportBuilder = new ReportBuilder();
-        return reportBuilder.buildJSON(timerConfig.getTimers());
+        return reportBuilder.buildJSON(timeRecorders.getTimers());
     }
 }

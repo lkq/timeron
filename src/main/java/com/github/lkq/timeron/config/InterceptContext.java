@@ -20,7 +20,7 @@ public class InterceptContext {
     }
 
     public <T> T createProxy(T target) {
-        return proxyFactory.create(target, interceptor.getTimerConfig());
+        return proxyFactory.create(target);
     }
 
     public <T> T intercept(Class<T> clz) {

@@ -2,8 +2,8 @@ package com.github.lkq.timeron.config;
 
 import com.github.lkq.timeron.TimerException;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
-import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorder;
+import com.github.lkq.timeron.measure.TimeRecorders;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,13 +20,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class InterceptorTest {
 
     @Mock
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
     private Interceptor interceptor;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        interceptor = new Interceptor(timerConfig);
+        interceptor = new Interceptor(timeRecorders);
     }
 
     @Test
@@ -35,7 +35,7 @@ class InterceptorTest {
         interceptor.intercept(null, tagInSon, null, null);
         interceptor.finishInterception();
 
-        verify(timerConfig, times(1)).addTimer(eq(tagInSon), any(InvocationTimer.class));
+        verify(timeRecorders, times(1)).addTimer(eq(tagInSon), any(TimeRecorder.class));
 
     }
 

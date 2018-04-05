@@ -1,21 +1,21 @@
 package com.github.lkq.timeron.proxy;
 
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorders;
 
 import java.lang.reflect.Proxy;
 
 public class JDKDynamicProxy<T> implements TimerProxy<T> {
 
     private T target;
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
 
-    public JDKDynamicProxy(T target, TimerConfig timerConfig) {
+    public JDKDynamicProxy(T target, TimeRecorders timeRecorders) {
         this.target = target;
-        this.timerConfig = timerConfig;
+        this.timeRecorders = timeRecorders;
     }
 
-    public T getProxy() {
+    public T create() {
         Class<?>[] interfaces = target.getClass().getInterfaces();
-        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader(), interfaces, new JDKInvocationHandler(target, timerConfig));
+        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader(), interfaces, new JDKInvocationHandler(target, timeRecorders));
     }
 }

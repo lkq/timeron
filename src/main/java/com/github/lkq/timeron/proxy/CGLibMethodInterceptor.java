@@ -1,7 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
-import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorder;
+import com.github.lkq.timeron.measure.TimeRecorders;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -9,28 +9,28 @@ import java.lang.reflect.Method;
 
 public class CGLibMethodInterceptor implements MethodInterceptor{
     private Object target;
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
 
-    public <T> CGLibMethodInterceptor(T target, TimerConfig timerConfig) {
+    public <T> CGLibMethodInterceptor(T target, TimeRecorders timeRecorders) {
         this.target = target;
-        this.timerConfig = timerConfig;
+        this.timeRecorders = timeRecorders;
     }
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        InvocationTimer invocationTimer = getTimer(method);
-        if (invocationTimer != null) {
+        TimeRecorder timeRecorder = getTimer(method);
+        if (timeRecorder != null) {
             long startTime = System.nanoTime();
             Object retVal = method.invoke(target, args);
             long stopTime = System.nanoTime();
-            invocationTimer.record(startTime, stopTime);
+            timeRecorder.record(startTime, stopTime);
             return retVal;
         } else {
             return method.invoke(target, args);
         }
     }
 
-    private InvocationTimer getTimer(Method method) {
-        return timerConfig.getTimer(method);
+    private TimeRecorder getTimer(Method method) {
+        return timeRecorders.getTimer(method);
     }
 }

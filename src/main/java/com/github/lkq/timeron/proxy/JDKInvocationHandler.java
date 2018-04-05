@@ -1,7 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
-import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorder;
+import com.github.lkq.timeron.measure.TimeRecorders;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,15 +9,15 @@ import java.lang.reflect.Method;
 public class JDKInvocationHandler implements InvocationHandler {
 
     private Object target;
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
 
-    public JDKInvocationHandler(Object target, TimerConfig timerConfig) {
+    public JDKInvocationHandler(Object target, TimeRecorders timeRecorders) {
         this.target = target;
-        this.timerConfig = timerConfig;
+        this.timeRecorders = timeRecorders;
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        InvocationTimer timer = getTimer(method);
+        TimeRecorder timer = getTimer(method);
         if (timer != null) {
             long startTime = System.nanoTime();
             Object retVal = method.invoke(target, args);
@@ -29,7 +29,7 @@ public class JDKInvocationHandler implements InvocationHandler {
         }
     }
 
-    private InvocationTimer getTimer(Method method) {
-        return timerConfig.getTimer(method);
+    private TimeRecorder getTimer(Method method) {
+        return timeRecorders.getTimer(method);
     }
 }

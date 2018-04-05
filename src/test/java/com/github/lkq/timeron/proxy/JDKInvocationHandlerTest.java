@@ -1,7 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
-import com.github.lkq.timeron.measure.InvocationTimer;
-import com.github.lkq.timeron.measure.TimerConfig;
+import com.github.lkq.timeron.measure.TimeRecorder;
+import com.github.lkq.timeron.measure.TimeRecorders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,9 +20,9 @@ class JDKInvocationHandlerTest {
 
     private JDKInvocationHandler handler;
     @Mock
-    private TimerConfig timerConfig;
+    private TimeRecorders timeRecorders;
     @Mock
-    private InvocationTimer invocationTimer;
+    private TimeRecorder timeRecorder;
 
     static class TestClass {
         String measuredMethod(String arg) {
@@ -38,10 +38,10 @@ class JDKInvocationHandlerTest {
     @Test
     void willPassThroughInvocationIfNoTimerDefined() throws Throwable {
 
-        handler = new JDKInvocationHandler(new TestClass(), timerConfig);
+        handler = new JDKInvocationHandler(new TestClass(), timeRecorders);
         Method measuredMethod = TestClass.class.getDeclaredMethod("measuredMethod", String.class);
 
-        given(timerConfig.getTimer(measuredMethod)).willReturn(null);
+        given(timeRecorders.getTimer(measuredMethod)).willReturn(null);
 
         Object retVal = handler.invoke(null, measuredMethod, new Object[]{"arg"});
 
@@ -51,14 +51,14 @@ class JDKInvocationHandlerTest {
     @Test
     void willMeasureInvocationIfTimerDefined() throws Throwable {
 
-        handler = new JDKInvocationHandler(new TestClass(), timerConfig);
+        handler = new JDKInvocationHandler(new TestClass(), timeRecorders);
         Method measuredMethod = TestClass.class.getDeclaredMethod("measuredMethod", String.class);
 
-        given(timerConfig.getTimer(measuredMethod)).willReturn(invocationTimer);
+        given(timeRecorders.getTimer(measuredMethod)).willReturn(timeRecorder);
 
         Object retVal = handler.invoke(null, measuredMethod, new Object[]{"arg"});
 
         assertThat(retVal, is("measuring: arg"));
-        verify(invocationTimer, times(1)).record(anyLong(), anyLong());
+        verify(timeRecorder, times(1)).record(anyLong(), anyLong());
     }
 }
