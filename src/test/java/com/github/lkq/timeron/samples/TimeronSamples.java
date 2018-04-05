@@ -31,7 +31,7 @@ public class TimeronSamples {
     }
 
     @Test
-    void willMeasurePerformanceOnInterceptedClassMethod() throws JSONException {
+    void interceptClassMethodWillBeMeasuredUnderItsName() throws JSONException {
         Timer timer = new Timer();
         Son son = timer.intercept(Son.class);
         timer.measure(son.tagInSon(""));
@@ -50,7 +50,7 @@ public class TimeronSamples {
     }
 
     @Test
-    void willMeasurePerformanceOnInterceptedSuperClassMethodUsingChildClass() throws JSONException {
+    void interceptChildClassMethodInheritedFromSuperClassWillMeasureUnderSuperClassName() throws JSONException {
         Timer timer = new Timer();
         Son son = timer.intercept(Son.class);
         timer.measure(son.tagInMother(""));
@@ -68,12 +68,11 @@ public class TimeronSamples {
                 ));
     }
 
-    @Disabled("implementation not ready yet")
     @Test
-    void willMeasurePerformanceOnInterceptedSuperClassMethodUsingSuperClass() throws JSONException {
+    void interceptChildClassMethodOverrideFromSuperClassWillMeasureUnderChildClassName() throws JSONException {
         Timer timer = new Timer();
-        Mother mother = timer.intercept(Mother.class);
-        timer.measure(mother.fromMotherTagInSon(""));
+        Son son = timer.intercept(Son.class);
+        timer.measure(son.fromMotherTagInSon(""));
 
         Son kingson = timer.on(new Son("kingson"));
 
@@ -88,11 +87,12 @@ public class TimeronSamples {
                 ));
     }
 
+    @Disabled("implementation not ready yet")
     @Test
-    void willMeasurePerformanceOnInterceptedSuperClassMethodBeingOverride() throws JSONException {
+    void interceptSuperClassMethodCanMeasuredChildClassMethodUnderChildClassName() throws JSONException {
         Timer timer = new Timer();
-        Son son = timer.intercept(Son.class);
-        timer.measure(son.fromMotherTagInSon(""));
+        Mother mother = timer.intercept(Mother.class);
+        timer.measure(mother.fromMotherTagInSon(""));
 
         Son kingson = timer.on(new Son("kingson"));
 

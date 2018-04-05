@@ -86,4 +86,9 @@ public class Son extends Mother implements Father {
     public String fromMotherTagInSon(String arg) {
         return "fromMotherTagInSon-" + arg;
     }
+
+    @Override
+    public String tagInMotherImplInSon(String arg) {
+        return "tagInMotherImplInSon-" + arg;
+    }
 }

@@ -25,6 +25,9 @@ public abstract class Mother implements Grandma {
         return "fromMotherTagInSon-" + arg;
     }
 
+    @Timer(name = "tagInMotherImplInSon")
+    public abstract String tagInMotherImplInSon(String arg);
+
     public String fromMotherTagInGreatGrandson(String arg) {
         return "fromMotherTagInGreatGrandson-" + arg;
     }

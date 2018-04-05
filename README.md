@@ -7,7 +7,7 @@ Going to build a simple framework for measuring method call performance
 
 #### Intercept concrete class method
 
-intercepted concrete method will be measured performance with
+intercepted concrete method will be measured performance under its own name
 
     Timer timer = new Timer();
     UserSerivceImpl service = timer.intercept(UserSerivceImpl.class)
