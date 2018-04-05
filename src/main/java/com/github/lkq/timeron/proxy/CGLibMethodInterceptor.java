@@ -1,19 +1,35 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.measure.TimeRecorder;
-import com.github.lkq.timeron.measure.TimeRecorders;
+import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class CGLibMethodInterceptor implements MethodInterceptor{
     private Object target;
-    private TimeRecorders timeRecorders;
+    private TimeRecorderFactory timeRecorderFactory;
 
-    public <T> CGLibMethodInterceptor(T target, TimeRecorders timeRecorders) {
+    private Map<Method, TimeRecorder> timeRecorders;
+
+    public <T> CGLibMethodInterceptor(T target, List<Method> interceptedMethods, TimeRecorderFactory timeRecorderFactory) {
+        Objects.requireNonNull(target, "proxy target is required");
+        Objects.requireNonNull(interceptedMethods, "interceptedMethods is required");
+        Objects.requireNonNull(timeRecorderFactory, "timeRecorderFactory is required");
+
         this.target = target;
-        this.timeRecorders = timeRecorders;
+        this.timeRecorderFactory = timeRecorderFactory;
+
+        timeRecorders = new HashMap<>();
+        for (Method method : interceptedMethods) {
+            timeRecorders.put(method, null);
+        }
+
     }
 
     @Override
@@ -31,6 +47,14 @@ public class CGLibMethodInterceptor implements MethodInterceptor{
     }
 
     private TimeRecorder getTimer(Method method) {
-        return timeRecorders.getTimer(method);
+        if (timeRecorders.containsKey(method)) {
+            TimeRecorder timeRecorder = timeRecorders.get(method);
+            if (timeRecorder == null) {
+                timeRecorder = timeRecorderFactory.create();
+                timeRecorders.put(method, timeRecorder);
+            }
+            return timeRecorder;
+        }
+        return null;
     }
 }

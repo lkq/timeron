@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TimeRecorders {
+
     private Map<Method, TimeRecorder> timers = new HashMap<>();
 
     public TimeRecorder getTimer(Method method) {

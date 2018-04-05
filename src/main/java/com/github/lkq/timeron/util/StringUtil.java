@@ -3,6 +3,7 @@ package com.github.lkq.timeron.util;
 import java.lang.reflect.Method;
 
 public class StringUtil {
+
     public static boolean isBlank(String value) {
         return value == null || "".equals(value.trim());
     }
