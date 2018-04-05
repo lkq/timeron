@@ -1,6 +1,5 @@
 package com.github.lkq.timeron;
 
-import com.github.lkq.timeron.annotation.Timer;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -23,7 +22,6 @@ public class ReflectionPlayground {
         System.out.println(map.get(callMe1));
         for (Method method : TestImplementation.class.getDeclaredMethods()) {
             logger.info("found declared method: " + method.toString());
-            logger.info("annotated with: " + method.getDeclaredAnnotation(Timer.class));
         }
     }
 
@@ -34,7 +32,6 @@ public class ReflectionPlayground {
     }
 
     static class TestImplementation implements TestInterface<Integer> {
-        @Timer(name = "callMe")
         @Override
         public void callMe(Integer name) {
             logger.info("calling me " + name);

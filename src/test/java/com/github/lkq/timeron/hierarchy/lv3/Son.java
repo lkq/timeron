@@ -1,7 +1,6 @@
 package com.github.lkq.timeron.hierarchy.lv3;
 
 
-import com.github.lkq.timeron.annotation.Timer;
 import com.github.lkq.timeron.hierarchy.lv2.Father;
 import com.github.lkq.timeron.hierarchy.lv2.Mother;
 
@@ -39,7 +38,6 @@ public class Son extends Mother implements Father {
         }
     }
 
-    @Timer(name = "tagInSon")
     public String tagInSon(String arg) {
         return "tagInSon-" + arg;
     }
@@ -53,7 +51,6 @@ public class Son extends Mother implements Father {
         return "tagInGrandma-" + arg;
     }
 
-    @Timer(name = "tagInGrandmaTagInSon")
     @Override
     public String tagInGrandmaTagInSon(String arg) {
         return "tagInGrandmaTagInSon-" + arg;
@@ -64,7 +61,6 @@ public class Son extends Mother implements Father {
         return "tagInFather-" + arg;
     }
 
-    @Timer(name = "fromFatherTagInSon")
     @Override
     public String fromFatherTagInSon(String arg) {
         return "tagInfromFatherTagInSonGrandma-" + arg;
@@ -75,13 +71,11 @@ public class Son extends Mother implements Father {
         return "tagInGrandpa-" + arg;
     }
 
-    @Timer(name = "fromGrandpaTagInSon")
     @Override
     public String fromGrandpaTagInSon(String arg) {
         return "fromGrandpaTagInSon-" + arg;
     }
 
-    @Timer(name = "fromMotherTagInSon")
     @Override
     public String fromMotherTagInSon(String arg) {
         return "fromMotherTagInSon-" + arg;

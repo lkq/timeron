@@ -1,7 +1,6 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.TimerException;
-import com.github.lkq.timeron.TimerProxy;
 import com.github.lkq.timeron.measure.TimerConfig;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;

@@ -1,6 +1,5 @@
 package com.github.lkq.timeron.proxy;
 
-import com.github.lkq.timeron.TimerProxy;
 import com.github.lkq.timeron.measure.TimerConfig;
 
 import java.lang.reflect.Proxy;
