@@ -34,7 +34,7 @@ public class CGLibMethodInterceptor implements MethodInterceptor{
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        TimeRecorder timeRecorder = getTimer(method);
+        TimeRecorder timeRecorder = getTimeRecorder(method);
         if (timeRecorder != null) {
             long startTime = System.nanoTime();
             Object retVal = method.invoke(target, args);
@@ -46,7 +46,7 @@ public class CGLibMethodInterceptor implements MethodInterceptor{
         }
     }
 
-    private TimeRecorder getTimer(Method method) {
+    private TimeRecorder getTimeRecorder(Method method) {
         if (timeRecorders.containsKey(method)) {
             TimeRecorder timeRecorder = timeRecorders.get(method);
             if (timeRecorder == null) {

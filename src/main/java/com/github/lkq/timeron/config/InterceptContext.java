@@ -41,7 +41,7 @@ public class InterceptContext {
         try {
             interceptor.finishInterception();
         } catch (TimerException e) {
-            new ErrorReporter().missingMethodInvocation();
+            ErrorReporter.missingMethodInvocation();
             throw e;
         }
     }

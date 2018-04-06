@@ -35,10 +35,10 @@ public class Timer {
 
     /**
      * setup measured method call
-     * @param beginInterception
+     * @param methodCall
      * @param <T>
      */
-    public <T> void measure(T beginInterception) {
+    public <T> void measure(T methodCall) {
         context.finishInterception();
     }
 
