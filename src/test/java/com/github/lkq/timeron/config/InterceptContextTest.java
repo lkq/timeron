@@ -19,7 +19,7 @@ class InterceptContextTest {
 
 
     @Mock
-    private CGLibInterceptor CGLibInterceptor;
+    private CGLibInterceptorAdaptor interceptorAdaptor;
     @Mock
     private TimeRecorders timeRecorders;
     @Mock
@@ -35,22 +35,21 @@ class InterceptContextTest {
     @Test
     void canStubMethodCalls() throws Throwable {
 
-        InterceptContext context = new InterceptContext(CGLibInterceptor, proxyFactory);
+        InterceptContext context = new InterceptContext(interceptorAdaptor, proxyFactory);
         Son son = context.intercept(Son.class);
 
         son.tagInSon(null);
 
-        context.finishInterception();
+        context.completeIntercept();
 
-        verify(CGLibInterceptor, times(1)).intercept(any(), eq(Son.class.getMethod("tagInSon", String.class)), any(), any());
-        verify(CGLibInterceptor, times(1)).finishInterception();
+        verify(interceptorAdaptor, times(1)).intercept(any(), eq(Son.class.getMethod("tagInSon", String.class)), any(), any());
+        verify(interceptorAdaptor, times(1)).completeIntercept();
     }
 
     @Test
     void canCreateProxy() {
 
-        InterceptContext context = new InterceptContext(CGLibInterceptor, proxyFactory);
-        given(CGLibInterceptor.getTimeRecorders()).willReturn(timeRecorders);
+        InterceptContext context = new InterceptContext(interceptorAdaptor, proxyFactory);
         Son kingson = new Son("kingson");
         given(proxyFactory.create(kingson)).willReturn(proxy);
         Son actualProxy = context.createProxy(kingson);

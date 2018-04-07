@@ -10,12 +10,12 @@ import org.objenesis.ObjenesisStd;
 
 public class InterceptContext {
 
-    private CGLibInterceptor CGLibInterceptor;
+    private CGLibInterceptorAdaptor interceptorAdaptor;
     private Objenesis objenesis = new ObjenesisStd();
     private ProxyFactory proxyFactory;
 
-    public InterceptContext(CGLibInterceptor CGLibInterceptor, ProxyFactory proxyFactory) {
-        this.CGLibInterceptor = CGLibInterceptor;
+    public InterceptContext(CGLibInterceptorAdaptor interceptorAdaptor, ProxyFactory proxyFactory) {
+        this.interceptorAdaptor = interceptorAdaptor;
         this.proxyFactory = proxyFactory;
     }
 
@@ -27,19 +27,19 @@ public class InterceptContext {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(clz);
         enhancer.setCallbackFilter(method -> 0);
-        enhancer.setCallbackType(CGLibInterceptor.getClass());
+        enhancer.setCallbackType(interceptorAdaptor.getClass());
 
         Class proxyClz = enhancer.createClass();
 
         T proxyInstance = (T) objenesis.newInstance(proxyClz);
 
-        ((Factory) proxyInstance).setCallbacks(new MethodInterceptor[]{CGLibInterceptor});
+        ((Factory) proxyInstance).setCallbacks(new MethodInterceptor[]{interceptorAdaptor});
         return proxyInstance;
     }
 
-    public void finishInterception() {
+    public void completeIntercept() {
         try {
-            CGLibInterceptor.finishInterception();
+            interceptorAdaptor.completeIntercept();
         } catch (TimerException e) {
             ErrorReporter.missingMethodInvocation();
             throw e;
