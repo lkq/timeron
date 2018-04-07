@@ -8,7 +8,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
-public class Interceptor implements MethodInterceptor {
+public class CGLibInterceptor implements MethodInterceptor {
 
     private TimeRecorders timeRecorders;
 
@@ -16,7 +16,7 @@ public class Interceptor implements MethodInterceptor {
 
     private Method method;
 
-    public Interceptor(TimeRecorders timeRecorders) {
+    public CGLibInterceptor(TimeRecorders timeRecorders) {
         this.timeRecorders = timeRecorders;
     }
 

@@ -19,23 +19,23 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class InterceptorTest {
+class CGLibInterceptorTest {
 
     @Mock
     private TimeRecorders timeRecorders;
-    private Interceptor interceptor;
+    private CGLibInterceptor CGLibInterceptor;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        interceptor = new Interceptor(timeRecorders);
+        CGLibInterceptor = new CGLibInterceptor(timeRecorders);
     }
 
     @Test
     void canCreateTimerOnFinishInterception() throws Throwable {
         Method tagInSon = Son.class.getMethod("tagInSon", String.class);
-        interceptor.intercept(null, tagInSon, null, null);
-        interceptor.finishInterception();
+        CGLibInterceptor.intercept(null, tagInSon, null, null);
+        CGLibInterceptor.finishInterception();
 
         verify(timeRecorders, times(1)).addTimer(eq(tagInSon), any(TimeRecorder.class));
 
@@ -43,15 +43,15 @@ class InterceptorTest {
 
     @Test
     void willThrowExceptionWhenTryToFinishInterceptionWithoutStarted() throws NoSuchMethodException {
-        TimerException exception = Assertions.assertThrows(TimerException.class, () -> interceptor.finishInterception());
+        TimerException exception = Assertions.assertThrows(TimerException.class, () -> CGLibInterceptor.finishInterception());
         assertThat(exception.getMessage(), is("interception not started"));
     }
 
     @Test
     void willThrowExceptionWhenTryToStartInterceptionWhenAlreadyInProgress() throws Throwable {
         Method tagInSon = Son.class.getMethod("tagInSon", String.class);
-        interceptor.intercept(null, tagInSon, null, null);
-        TimerException exception = Assertions.assertThrows(TimerException.class, () -> interceptor.intercept(null, tagInSon, null, null));
+        CGLibInterceptor.intercept(null, tagInSon, null, null);
+        TimerException exception = Assertions.assertThrows(TimerException.class, () -> CGLibInterceptor.intercept(null, tagInSon, null, null));
         assertThat(exception.getMessage(), is("unfinished interception detected on public java.lang.String com.github.lkq.timeron.hierarchy.lv3.Son.tagInSon(java.lang.String)"));
     }
 }

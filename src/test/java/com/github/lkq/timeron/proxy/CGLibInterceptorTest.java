@@ -18,7 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class CGLibMethodInterceptorTest {
+class CGLibInterceptorTest {
 
     private CGLibMethodInterceptor interceptor;
 

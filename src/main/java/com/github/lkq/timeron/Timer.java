@@ -1,14 +1,14 @@
 package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.config.InterceptContext;
-import com.github.lkq.timeron.config.Interceptor;
+import com.github.lkq.timeron.config.CGLibInterceptor;
 import com.github.lkq.timeron.config.ProxyFactory;
 import com.github.lkq.timeron.measure.TimeRecorders;
 
 public class Timer {
 
     private final TimeRecorders timeRecorders = new TimeRecorders();
-    private final InterceptContext context = new InterceptContext(new Interceptor(timeRecorders), new ProxyFactory(timeRecorders));
+    private final InterceptContext context = new InterceptContext(new CGLibInterceptor(timeRecorders), new ProxyFactory(timeRecorders));
 
     /**
      * return a proxy object for target, Dynamic Proxy or CGLib proxy will be created
