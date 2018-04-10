@@ -10,4 +10,21 @@ class TimerTest {
         Son son = timer.intercept(Son.class);
         timer.measure(son.tagInSon(""));
     }
+
+    @Test
+    void name() {
+        printHierarchy(Son.class);
+    }
+
+    void printHierarchy(Class clz) {
+        if (clz != null) {
+            System.out.println("clz: " + clz);
+            printHierarchy(clz.getSuperclass());
+            for (Class iface : clz.getInterfaces()) {
+                printHierarchy(iface);
+            }
+        } else {
+            System.out.println("null");
+        }
+    }
 }

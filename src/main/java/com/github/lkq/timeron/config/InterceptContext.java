@@ -10,7 +10,6 @@ import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
 
 public class InterceptContext implements MethodInterceptor {
 
@@ -24,7 +23,7 @@ public class InterceptContext implements MethodInterceptor {
     }
 
     public <T> T createProxy(T target) {
-        return proxyFactory.create(target, Collections.emptyList());
+        return proxyFactory.create(target, interceptionConfig.getInterceptedMethods(target.getClass()));
     }
 
     public <T> T intercept(Class<T> clz) {

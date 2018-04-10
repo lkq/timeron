@@ -3,12 +3,11 @@ package com.github.lkq.timeron.config;
 import com.github.lkq.timeron.TimerException;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class InterceptionConfig {
 
-    private Set<Method> interceptedMethods = new HashSet<>();
+    private Map<Class, List<Method>> interceptedMethods = new HashMap<>();
     private Method interceptingMethod;
 
     public void startIntercept(Method method) {
@@ -22,11 +21,16 @@ public class InterceptionConfig {
         if (this.interceptingMethod == null) {
             throw new TimerException("no interception in progress");
         }
-        this.interceptedMethods.add(this.interceptingMethod);
+        Class<?> clz = interceptingMethod.getDeclaringClass();
+        List<Method> methods = this.interceptedMethods.computeIfAbsent(clz, k -> new ArrayList<>());
+        methods.add(interceptingMethod);
         this.interceptingMethod = null;
     }
 
-    public boolean isMethodIntercepted(Method method) {
-        return interceptedMethods.contains(method);
+    public List<Method> getInterceptedMethods(Class<?> clz) {
+        if (interceptedMethods.containsKey(clz)) {
+            return interceptedMethods.get(clz);
+        }
+        return Collections.emptyList();
     }
 }

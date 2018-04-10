@@ -13,7 +13,12 @@ import java.util.List;
 
 public class CGLibProxyFactory {
 
+    private final TimeRecorderFactory timeRecorderFactory;
     private Objenesis objenesis = new ObjenesisStd();
+
+    public CGLibProxyFactory(TimeRecorderFactory timeRecorderFactory) {
+        this.timeRecorderFactory = timeRecorderFactory;
+    }
 
     public <T> T create(T target, List<Method> interceptedMethods) {
         try {
@@ -22,7 +27,7 @@ public class CGLibProxyFactory {
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(rootClass);
 
-            CGLibMethodInterceptor callback = new CGLibMethodInterceptor(target, interceptedMethods, new TimeRecorderFactory());
+            CGLibMethodInterceptor callback = new CGLibMethodInterceptor(target, interceptedMethods, timeRecorderFactory);
             enhancer.setCallbackFilter(method -> 0);
             enhancer.setCallbackType(callback.getClass());
             return (T) createProxyClassAndInstance(enhancer, new Callback[]{callback});

@@ -50,7 +50,7 @@ public class CGLibMethodInterceptor implements MethodInterceptor{
         if (timeRecorders.containsKey(method)) {
             TimeRecorder timeRecorder = timeRecorders.get(method);
             if (timeRecorder == null) {
-                timeRecorder = timeRecorderFactory.create();
+                timeRecorder = timeRecorderFactory.create(method);
                 timeRecorders.put(method, timeRecorder);
             }
             return timeRecorder;

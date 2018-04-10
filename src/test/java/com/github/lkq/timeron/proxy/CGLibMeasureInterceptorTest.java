@@ -37,7 +37,7 @@ class CGLibMeasureInterceptorTest {
         Method tagInSon = Son.class.getDeclaredMethod("tagInSon", String.class);
         interceptor = new CGLibMethodInterceptor(new Son("kingson"), Arrays.asList(tagInSon), recorderFactory);
 
-        given(recorderFactory.create()).willReturn(timeRecorder);
+        given(recorderFactory.create(tagInSon)).willReturn(timeRecorder);
         Object retVal = interceptor.intercept(null, tagInSon, new String[]{"test"}, null);
 
         assertThat(retVal, CoreMatchers.is("tagInSon-test"));

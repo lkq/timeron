@@ -1,6 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.hierarchy.lv3.Son;
+import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import com.github.lkq.timeron.measure.TimeRecorders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class CGLibProxyFactoryTest {
 
     @Test
     void canCreateProxy() {
-        Son proxy = new CGLibProxyFactory().create(new Son("Kingson"), Collections.emptyList());
+        Son proxy = new CGLibProxyFactory(new TimeRecorderFactory()).create(new Son("Kingson"), Collections.emptyList());
         assertThat(proxy.tagInGrandpa("test"), is("tagInGrandpa-test"));
         assertThat(proxy.tagInSon("test"), is("tagInSon-test"));
     }
