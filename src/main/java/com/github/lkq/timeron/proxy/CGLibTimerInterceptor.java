@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CGLibMethodInterceptor implements MethodInterceptor{
+public class CGLibTimerInterceptor implements MethodInterceptor{
     private Object target;
     private TimeRecorderFactory timeRecorderFactory;
 
     private Map<Method, TimeRecorder> timeRecorders;
 
-    public <T> CGLibMethodInterceptor(T target, List<Method> interceptedMethods, TimeRecorderFactory timeRecorderFactory) {
+    public <T> CGLibTimerInterceptor(T target, List<Method> interceptedMethods, TimeRecorderFactory timeRecorderFactory) {
         Objects.requireNonNull(target, "proxy target is required");
         Objects.requireNonNull(interceptedMethods, "interceptedMethods is required");
         Objects.requireNonNull(timeRecorderFactory, "timeRecorderFactory is required");

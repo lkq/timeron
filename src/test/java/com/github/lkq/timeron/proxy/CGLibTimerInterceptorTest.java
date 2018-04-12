@@ -18,9 +18,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class CGLibMeasureInterceptorTest {
+class CGLibTimerInterceptorTest {
 
-    private CGLibMethodInterceptor interceptor;
+    private CGLibTimerInterceptor interceptor;
 
     @Mock
     private TimeRecorderFactory recorderFactory;
@@ -35,7 +35,7 @@ class CGLibMeasureInterceptorTest {
     @Test
     void willMeasurePerformanceForInterceptedMethod() throws Throwable {
         Method tagInSon = Son.class.getDeclaredMethod("tagInSon", String.class);
-        interceptor = new CGLibMethodInterceptor(new Son("kingson"), Arrays.asList(tagInSon), recorderFactory);
+        interceptor = new CGLibTimerInterceptor(new Son("kingson"), Arrays.asList(tagInSon), recorderFactory);
 
         given(recorderFactory.create(tagInSon)).willReturn(timeRecorder);
         Object retVal = interceptor.intercept(null, tagInSon, new String[]{"test"}, null);

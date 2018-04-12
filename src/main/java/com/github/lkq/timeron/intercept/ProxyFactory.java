@@ -1,4 +1,4 @@
-package com.github.lkq.timeron.config;
+package com.github.lkq.timeron.intercept;
 
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import com.github.lkq.timeron.proxy.CGLibProxyFactory;

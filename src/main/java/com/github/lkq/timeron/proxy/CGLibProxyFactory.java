@@ -27,7 +27,7 @@ public class CGLibProxyFactory {
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(rootClass);
 
-            CGLibMethodInterceptor callback = new CGLibMethodInterceptor(target, interceptedMethods, timeRecorderFactory);
+            CGLibTimerInterceptor callback = new CGLibTimerInterceptor(target, interceptedMethods, timeRecorderFactory);
             enhancer.setCallbackFilter(method -> 0);
             enhancer.setCallbackType(callback.getClass());
             return (T) createProxyClassAndInstance(enhancer, new Callback[]{callback});

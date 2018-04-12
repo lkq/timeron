@@ -1,4 +1,4 @@
-package com.github.lkq.timeron.config;
+package com.github.lkq.timeron.intercept;
 
 import com.github.lkq.timeron.ErrorReporter;
 import com.github.lkq.timeron.TimerException;

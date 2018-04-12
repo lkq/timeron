@@ -1,11 +1,11 @@
-package com.github.lkq.timeron.config;
+package com.github.lkq.timeron.intercept;
 
 import com.github.lkq.timeron.TimerException;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class InterceptionConfig {
+public class Interceptor {
 
     private Map<Class, List<Method>> interceptedMethods = new HashMap<>();
     private Method interceptingMethod;

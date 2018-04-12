@@ -1,4 +1,4 @@
-package com.github.lkq.timeron.config;
+package com.github.lkq.timeron.intercept;
 
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ class InterceptContextTest {
 
 
     @Mock
-    private InterceptionConfig interceptionConfig;
+    private Interceptor interceptor;
     @Mock
     private ProxyFactory proxyFactory;
     @Mock
@@ -29,7 +29,7 @@ class InterceptContextTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        context = new InterceptContext(interceptionConfig, proxyFactory);
+        context = new InterceptContext(interceptor, proxyFactory);
     }
 
     @Test
@@ -41,14 +41,14 @@ class InterceptContextTest {
 
         context.completeIntercept();
 
-        verify(interceptionConfig, times(1)).startIntercept(Son.class.getMethod("tagInSon", String.class));
-        verify(interceptionConfig, times(1)).completeIntercept();
+        verify(interceptor, times(1)).startIntercept(Son.class.getMethod("tagInSon", String.class));
+        verify(interceptor, times(1)).completeIntercept();
     }
 
     @Test
     void canCreateProxy() {
 
-        InterceptContext context = new InterceptContext(interceptionConfig, proxyFactory);
+        InterceptContext context = new InterceptContext(interceptor, proxyFactory);
         Son kingson = new Son("kingson");
         given(proxyFactory.create(kingson, Collections.emptyList())).willReturn(proxy);
         Son actualProxy = context.createProxy(kingson);
@@ -63,7 +63,7 @@ class InterceptContextTest {
         context.intercept(null, tagInSon, null, null);
         context.completeIntercept();
 
-        verify(interceptionConfig, times(1)).startIntercept(tagInSon);
+        verify(interceptor, times(1)).startIntercept(tagInSon);
     }
 
     @Test
@@ -72,6 +72,6 @@ class InterceptContextTest {
         context.intercept(null, tagInSon, null, null);
         context.completeIntercept();
 
-        verify(interceptionConfig, times(1)).completeIntercept();
+        verify(interceptor, times(1)).completeIntercept();
     }
 }

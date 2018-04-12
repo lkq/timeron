@@ -1,4 +1,4 @@
-package com.github.lkq.timeron.config;
+package com.github.lkq.timeron.intercept;
 
 import com.github.lkq.timeron.ErrorReporter;
 import com.github.lkq.timeron.TimerException;
@@ -13,17 +13,17 @@ import java.lang.reflect.Method;
 
 public class InterceptContext implements MethodInterceptor {
 
-    private InterceptionConfig interceptionConfig;
+    private Interceptor interceptor;
     private Objenesis objenesis = new ObjenesisStd();
     private ProxyFactory proxyFactory;
 
-    public InterceptContext(InterceptionConfig interceptionConfig, ProxyFactory proxyFactory) {
-        this.interceptionConfig = interceptionConfig;
+    public InterceptContext(Interceptor interceptor, ProxyFactory proxyFactory) {
+        this.interceptor = interceptor;
         this.proxyFactory = proxyFactory;
     }
 
     public <T> T createProxy(T target) {
-        return proxyFactory.create(target, interceptionConfig.getInterceptedMethods(target.getClass()));
+        return proxyFactory.create(target, interceptor.getInterceptedMethods(target.getClass()));
     }
 
     public <T> T intercept(Class<T> clz) {
@@ -42,7 +42,7 @@ public class InterceptContext implements MethodInterceptor {
 
     public void completeIntercept() {
         try {
-            interceptionConfig.completeIntercept();
+            interceptor.completeIntercept();
         } catch (TimerException e) {
             ErrorReporter.missingMethodInvocation();
             throw e;
@@ -51,7 +51,7 @@ public class InterceptContext implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        interceptionConfig.startIntercept(method);
+        interceptor.startIntercept(method);
         return null;
     }
 }
