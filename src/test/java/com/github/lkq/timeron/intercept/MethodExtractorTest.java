@@ -25,7 +25,7 @@ class MethodExtractorTest {
         Method[] methods = methodExtractor.extractInterceptedMethods(Son.class).toArray(new Method[0]);
 
         Method[] expectedMethods = new Method[]{
-                Son.class.getDeclaredMethod("tagInSon", String.class),
+                Son.class.getDeclaredMethod("implInSon", String.class),
         };
 
         assertArrayEquals(methods, expectedMethods);

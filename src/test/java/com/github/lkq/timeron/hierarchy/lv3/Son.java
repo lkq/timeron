@@ -12,15 +12,15 @@ import java.util.logging.Logger;
  * fromGrandpaTagInSon - class(tag) -> interface -> interface()
  * fromFatherTagInSon - class(tag) -> interface() -> interface
  *
- * tagInMother - class -> class(tag) -> interface
+ * implInMother - class -> class(tag) -> interface
  * tagInGrandma - class -> class -> interface(tag)
  * tagInGrandmaTagInSon - class(tag) -> class -> interface(tag)
  * tagInGrandmaTagInMother - class -> class(tag) -> interface(tag)
  * tagInMotherTagInSon - class(tag) -> class(tag) -> interface
  * fromGrandmaTagInSon - class(tag) -> class -> interface()
- * fromMotherTagInSon - class(tag) -> class() -> interface
+ * fromMotherImplInSon - class(tag) -> class() -> interface
  *
- * tagInMother - class -> class -> class(tag)
+ * implInMother - class -> class -> class(tag)
  * tagInMotherTagInSon - class -> class(tag) -> class(tag)
  * fromMotherTagInGreatGrandson - class(tag) -> class -> class()
  */
@@ -38,8 +38,8 @@ public class Son extends Mother implements Father {
         }
     }
 
-    public String tagInSon(String arg) {
-        return "tagInSon-" + arg;
+    public String implInSon(String arg) {
+        return "implInSon-" + arg;
     }
 
     public String fromSonTagInGrandson(String arg) {
@@ -77,8 +77,8 @@ public class Son extends Mother implements Father {
     }
 
     @Override
-    public String fromMotherTagInSon(String arg) {
-        return "fromMotherTagInSon-" + arg;
+    public String fromMotherImplInSon(String arg) {
+        return "fromMotherImplInSon-" + arg;
     }
 
     @Override

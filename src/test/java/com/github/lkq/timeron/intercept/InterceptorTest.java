@@ -29,7 +29,7 @@ class InterceptorTest {
     @Disabled("pending implementation")
     @Test
     void canSetupMethodInterception() throws Throwable {
-        Method tagInSon = Son.class.getMethod("tagInSon", String.class);
+        Method tagInSon = Son.class.getMethod("implInSon", String.class);
         interceptor.startIntercept(tagInSon);
         interceptor.completeIntercept();
 
@@ -45,34 +45,34 @@ class InterceptorTest {
 
     @Test
     void willThrowExceptionWhenTryToStartInterceptionWhenAlreadyInProgress() throws Throwable {
-        Method tagInSon = Son.class.getMethod("tagInSon", String.class);
+        Method tagInSon = Son.class.getMethod("implInSon", String.class);
         interceptor.startIntercept(tagInSon);
         TimerException exception = Assertions.assertThrows(TimerException.class, () -> interceptor.startIntercept(tagInSon));
-        assertThat(exception.getMessage(), is("unfinished interception detected on public java.lang.String com.github.lkq.timeron.hierarchy.lv3.Son.tagInSon(java.lang.String)"));
+        assertThat(exception.getMessage(), is("unfinished interception detected on public java.lang.String com.github.lkq.timeron.hierarchy.lv3.Son.implInSon(java.lang.String)"));
     }
 
     @Test
     void canGetInterceptedMethodsByClass() throws NoSuchMethodException {
-        interceptor.startIntercept(Son.class.getMethod("tagInSon", String.class));
+        interceptor.startIntercept(Son.class.getMethod("implInSon", String.class));
         interceptor.completeIntercept();
-        interceptor.startIntercept(Son.class.getMethod("tagInMother", String.class));
+        interceptor.startIntercept(Son.class.getMethod("implInMother", String.class));
         interceptor.completeIntercept();
 
         List<Method> interceptedMethods = interceptor.getInterceptedMethods(Son.class);
         assertThat(interceptedMethods.size(), is(2));
-        assertThat(interceptedMethods.get(0), is(Son.class.getMethod("tagInSon", String.class)));
-        assertThat(interceptedMethods.get(1), is(Son.class.getMethod("tagInMother", String.class)));
+        assertThat(interceptedMethods.get(0), is(Son.class.getMethod("implInSon", String.class)));
+        assertThat(interceptedMethods.get(1), is(Son.class.getMethod("implInMother", String.class)));
     }
 
     @Test
     void canGetInterceptedAbstractSuperMethodsByClass() throws NoSuchMethodException {
-        interceptor.startIntercept(Son.class.getMethod("tagInSon", String.class));
+        interceptor.startIntercept(Son.class.getMethod("implInSon", String.class));
         interceptor.completeIntercept();
-        interceptor.startIntercept(Son.class.getMethod("tagInMother", String.class));
+        interceptor.startIntercept(Son.class.getMethod("implInMother", String.class));
         interceptor.completeIntercept();
 
         List<Method> interceptedMethods = interceptor.getInterceptedMethods(Mother.class);
         assertThat(interceptedMethods.size(), is(1));
-        assertThat(interceptedMethods.get(0), is(Son.class.getMethod("tagInMother", String.class)));
+        assertThat(interceptedMethods.get(0), is(Son.class.getMethod("implInMother", String.class)));
     }
 }

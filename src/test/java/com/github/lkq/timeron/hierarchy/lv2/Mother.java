@@ -4,8 +4,8 @@ import com.github.lkq.timeron.hierarchy.lv1.Grandma;
 
 public abstract class Mother implements Grandma {
 
-    public String tagInMother(String arg) {
-        return "tagInMother-" + arg;
+    public String implInMother(String arg) {
+        return "implInMother-" + arg;
     }
 
     @Override
@@ -17,8 +17,8 @@ public abstract class Mother implements Grandma {
         return "tagInMotherTagInSon-" + arg;
     }
 
-    public String fromMotherTagInSon(String arg) {
-        return "fromMotherTagInSon-" + arg;
+    public String fromMotherImplInSon(String arg) {
+        return "fromMotherImplInSon-" + arg;
     }
 
     public abstract String tagInMotherImplInSon(String arg);

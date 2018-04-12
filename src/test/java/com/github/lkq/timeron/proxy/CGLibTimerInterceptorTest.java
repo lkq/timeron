@@ -34,13 +34,13 @@ class CGLibTimerInterceptorTest {
 
     @Test
     void willMeasurePerformanceForInterceptedMethod() throws Throwable {
-        Method tagInSon = Son.class.getDeclaredMethod("tagInSon", String.class);
+        Method tagInSon = Son.class.getDeclaredMethod("implInSon", String.class);
         interceptor = new CGLibTimerInterceptor(new Son("kingson"), Arrays.asList(tagInSon), recorderFactory);
 
         given(recorderFactory.create(tagInSon)).willReturn(timeRecorder);
         Object retVal = interceptor.intercept(null, tagInSon, new String[]{"test"}, null);
 
-        assertThat(retVal, CoreMatchers.is("tagInSon-test"));
+        assertThat(retVal, CoreMatchers.is("implInSon-test"));
         verify(timeRecorder, times(1)).record(anyLong(), anyLong());
     }
 }

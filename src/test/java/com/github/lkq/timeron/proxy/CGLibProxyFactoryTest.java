@@ -27,6 +27,6 @@ class CGLibProxyFactoryTest {
     void canCreateProxy() {
         Son proxy = new CGLibProxyFactory(new TimeRecorderFactory()).create(new Son("Kingson"), Collections.emptyList());
         assertThat(proxy.tagInGrandpa("test"), is("tagInGrandpa-test"));
-        assertThat(proxy.tagInSon("test"), is("tagInSon-test"));
+        assertThat(proxy.implInSon("test"), is("implInSon-test"));
     }
 }

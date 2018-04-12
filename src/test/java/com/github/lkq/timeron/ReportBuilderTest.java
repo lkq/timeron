@@ -29,14 +29,14 @@ class ReportBuilderTest {
     @Test
     void canBuildReportFromTimers() throws NoSuchMethodException, JSONException {
         HashMap<Method, TimeRecorder> timers = new HashMap<>();
-        timers.put(Son.class.getMethod("tagInSon", String.class), tagInSonTimer);
+        timers.put(Son.class.getMethod("implInSon", String.class), tagInSonTimer);
         given(tagInSonTimer.avg()).willReturn(1234L);
         given(tagInSonTimer.total()).willReturn(2345L);
         given(tagInSonTimer.count()).willReturn(3L);
         String stats = reportBuilder.buildJSON(timers);
 
         JSONAssert.assertEquals("[{" +
-                "\"com.github.lkq.timeron.hierarchy.lv3.Son.tagInSon\":{" +
+                "\"com.github.lkq.timeron.hierarchy.lv3.Son.implInSon\":{" +
                 "\"avg\":1234," +
                 "\"total\":2345," +
                 "\"count\":3" +
