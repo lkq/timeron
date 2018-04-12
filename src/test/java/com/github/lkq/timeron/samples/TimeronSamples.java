@@ -4,6 +4,7 @@ import com.github.lkq.timeron.Timer;
 import com.github.lkq.timeron.hierarchy.lv2.Mother;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import org.json.JSONException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.Customization;
@@ -31,7 +32,7 @@ public class TimeronSamples {
     }
 
     @Test
-    void interceptClassMethodWillBeMeasuredUnderItsName() throws JSONException {
+    void canMeasureDeclaredMethod() throws JSONException {
         Timer timer = new Timer();
         Son son = timer.intercept(Son.class);
         timer.measure(son.tagInSon(""));
@@ -49,9 +50,8 @@ public class TimeronSamples {
                 ));
     }
 
-    @Disabled("fix later")
     @Test
-    void interceptChildClassMethodInheritedFromSuperClassWillMeasureUnderSuperClassName() throws JSONException {
+    void canMeasureSuperClassDeclaredMethod() throws JSONException {
         Timer timer = new Timer();
         Son son = timer.intercept(Son.class);
         timer.measure(son.tagInMother(""));
@@ -67,6 +67,12 @@ public class TimeronSamples {
                         new Customization("[0].com.github.lkq.timeron.hierarchy.lv2.Mother.tagInMother.total", (o1, o2) -> ((int)o2) > 0),
                         new Customization("[0].com.github.lkq.timeron.hierarchy.lv2.Mother.tagInMother.avg", (o1, o2) -> ((int)o2) > 0)
                 ));
+    }
+
+    @Disabled("pending implementation")
+    @Test
+    void canMeasureAbstractSuperClassDeclaredMethod() {
+        Assertions.fail("pending implementation");
     }
 
     @Disabled("fix later")

@@ -27,10 +27,31 @@ public class Interceptor {
         this.interceptingMethod = null;
     }
 
+    /**
+     * walk through the class hierarchy to extract the intercepted methods
+     *
+     * @param clz
+     * @return
+     */
     public List<Method> getInterceptedMethods(Class<?> clz) {
+        ArrayList<Method> methods = new ArrayList<>();
         if (interceptedMethods.containsKey(clz)) {
-            return interceptedMethods.get(clz);
+            methods.addAll(interceptedMethods.get(clz));
         }
-        return Collections.emptyList();
+
+        methods.addAll(getSuperClassInterceptedMethods(clz, interceptedMethods));
+        return methods;
+    }
+
+    private List<Method> getSuperClassInterceptedMethods(Class<?> clz, Map<Class, List<Method>> interceptedMethods) {
+        Class<?> superClz = clz.getSuperclass();
+        List<Method> methods = new ArrayList<>();
+        while (superClz != null && !Object.class.equals(superClz)) {
+            if (interceptedMethods.containsKey(superClz)) {
+                methods.addAll(interceptedMethods.get(superClz));
+            }
+            superClz = superClz.getSuperclass();
+        }
+        return methods;
     }
 }
