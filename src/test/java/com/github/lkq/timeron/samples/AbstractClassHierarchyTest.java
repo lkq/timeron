@@ -35,9 +35,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
  *      son.declaredInMotherImplInChild - measured
  *      daughter.declaredInMotherImplInChild() - not measured
  */
-public class AbstractClassImplTest {
+public class AbstractClassHierarchyTest {
 
-    private Logger logger = Logger.getLogger(AbstractClassImplTest.class.getSimpleName());
+    private Logger logger = Logger.getLogger(AbstractClassHierarchyTest.class.getSimpleName());
 
     private void execute(Supplier<String> supplier, String expectedRetVal, int repeats) {
         for (int i = 0; i < repeats - 1; i++) {
