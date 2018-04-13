@@ -4,8 +4,11 @@ import com.github.lkq.timeron.TimerException;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Interceptor {
+    private static Logger logger = Logger.getLogger(Interceptor.class.getSimpleName());
 
     private Map<Class, List<Method>> interceptedMethods = new HashMap<>();
     private Method interceptingMethod;
@@ -14,6 +17,7 @@ public class Interceptor {
         if (this.interceptingMethod != null) {
             throw new TimerException("unfinished interception detected on " + this.interceptingMethod);
         }
+        logger.log(Level.INFO, "start intercepting method: " + method.toString());
         this.interceptingMethod = method;
     }
 
@@ -24,6 +28,7 @@ public class Interceptor {
         Class<?> clz = interceptingMethod.getDeclaringClass();
         List<Method> methods = this.interceptedMethods.computeIfAbsent(clz, k -> new ArrayList<>());
         methods.add(interceptingMethod);
+        logger.log(Level.INFO, "finished intercepting method: " + this.interceptingMethod.toString());
         this.interceptingMethod = null;
     }
 

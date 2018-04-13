@@ -17,8 +17,8 @@ public abstract class Mother implements Grandma {
         return "tagInMotherTagInSon-" + arg;
     }
 
-    public String fromMotherImplInSon(String arg) {
-        return "fromMotherImplInSon-" + arg;
+    public String declaredInMotherImplInChild(String arg) {
+        return "declaredInMotherImplInChild-" + arg;
     }
 
     public abstract String tagInMotherImplInSon(String arg);

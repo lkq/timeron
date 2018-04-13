@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class ReflectionPlayground {
-    private static Logger logger = Logger.getLogger(ReflectionPlayground.class.getName());
+    private static Logger logger = Logger.getLogger(ReflectionPlayground.class.getSimpleName());
     @Test
     void printBridgeMethodInfomation() throws NoSuchMethodException {
         Method callMe = TestImplementation.class.getDeclaredMethod("callMe", Integer.class);

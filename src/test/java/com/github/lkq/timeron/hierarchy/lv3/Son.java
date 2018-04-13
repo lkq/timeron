@@ -18,14 +18,14 @@ import java.util.logging.Logger;
  * tagInGrandmaTagInMother - class -> class(tag) -> interface(tag)
  * tagInMotherTagInSon - class(tag) -> class(tag) -> interface
  * fromGrandmaTagInSon - class(tag) -> class -> interface()
- * fromMotherImplInSon - class(tag) -> class() -> interface
+ * declaredInMotherImplInChild - class(tag) -> class() -> interface
  *
  * implInMother - class -> class -> class(tag)
  * tagInMotherTagInSon - class -> class(tag) -> class(tag)
  * fromMotherTagInGreatGrandson - class(tag) -> class -> class()
  */
 public class Son extends Mother implements Father {
-    private static Logger logger = Logger.getLogger(Son.class.getName());
+    private static Logger logger = Logger.getLogger(Son.class.getSimpleName());
 
     public Son(String name) {
         logger.info("creating son " + name);
@@ -77,8 +77,8 @@ public class Son extends Mother implements Father {
     }
 
     @Override
-    public String fromMotherImplInSon(String arg) {
-        return "fromMotherImplInSon-" + arg;
+    public String declaredInMotherImplInChild(String arg) {
+        return "declaredInMotherImplInChild-" + arg;
     }
 
     @Override
