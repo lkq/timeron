@@ -2,6 +2,7 @@ package com.github.lkq.timeron.samples;
 
 import com.github.lkq.timeron.Timer;
 import org.json.JSONException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -29,6 +30,7 @@ public class AbstractClassHierarchyTest {
 
     private Logger logger = Logger.getLogger(AbstractClassHierarchyTest.class.getSimpleName());
 
+    @Disabled("pending implementation")
     @Test
     void measurementOnParentAbstractMethodCanBeInheritedByAllChild() throws JSONException {
         Timer timer = new Timer();
@@ -49,11 +51,12 @@ public class AbstractClassHierarchyTest {
                         "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
                         "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMotherImplInChild.total", (o1, o2) -> ((int) o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMotherImplInChild.avg", (o1, o2) -> ((int) o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMotherImplInSon.total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMotherImplInSon.avg", (o1, o2) -> ((int) o2) > 0)
                 ));
     }
 
+    @Disabled("pending implementation")
     @Test
     void measurementOnChildImplementedAbstractMethodWontAffectOtherChildImplementation() throws JSONException {
         Timer timer = new Timer();

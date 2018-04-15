@@ -7,9 +7,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class MethodExtractor {
-    private Map<Class, List<Method>> interceptedMethods = new HashMap<>();
 
-    public List<Method> extractInterceptedMethods(Class clz) {
+    public List<Method> interceptedMethods(Class clz, Map<Class, List<Method>> interceptedMethods) {
         if (interceptedMethods.containsKey(clz)) {
             return interceptedMethods.get(clz);
         } else {
