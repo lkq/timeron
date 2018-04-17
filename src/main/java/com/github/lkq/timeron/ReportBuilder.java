@@ -2,20 +2,19 @@ package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.measure.TimeRecorder;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public class ReportBuilder {
-    public String buildJSON(Map<Method, TimeRecorder> timers) {
+    public String buildJSON(Map<String, TimeRecorder> timers) {
         String comma = "";
         StringBuilder json = new StringBuilder();
         json.append("[");
 
-        for (Method method : timers.keySet()) {
-            TimeRecorder timer = timers.get(method);
+        for (String signature : timers.keySet()) {
+            TimeRecorder timer = timers.get(signature);
             json.append(comma)
                     .append("{")
-                    .append("\"").append(method.getDeclaringClass().getName()).append(".").append(method.getName()).append("\"").append(":")
+                    .append("\"").append(signature).append("\"").append(":")
                     .append("{")
                     .append("\"total\":")
                     .append(timer.total())

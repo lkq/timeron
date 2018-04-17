@@ -2,6 +2,7 @@ package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.measure.TimeRecorder;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
+import com.github.lkq.timeron.util.ReflectionUtil;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -16,6 +17,7 @@ public class CGLibTimerInterceptor implements MethodInterceptor{
     private TimeRecorderFactory timeRecorderFactory;
 
     private Map<Method, TimeRecorder> timeRecorders;
+    private Map<String, TimeRecorder> timeRecorderMap;
 
     public <T> CGLibTimerInterceptor(T target, List<Method> interceptedMethods, TimeRecorderFactory timeRecorderFactory) {
         Objects.requireNonNull(target, "proxy target is required");
@@ -25,16 +27,18 @@ public class CGLibTimerInterceptor implements MethodInterceptor{
         this.target = target;
         this.timeRecorderFactory = timeRecorderFactory;
 
-        timeRecorders = new HashMap<>();
-        for (Method method : interceptedMethods) {
-            timeRecorders.put(method, null);
-        }
+        Class<?> clz = target.getClass();
 
+        timeRecorderMap = new HashMap<>();
+        for (Method method : interceptedMethods) {
+            timeRecorderMap.put(ReflectionUtil.signature(clz, method), timeRecorderFactory.create(ReflectionUtil.signature(clz, method)));
+        }
     }
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        TimeRecorder timeRecorder = getTimeRecorder(method);
+        Class<?> targetClz = obj.getClass().getSuperclass();
+        TimeRecorder timeRecorder = getTimeRecorder(targetClz, method);
         if (timeRecorder != null) {
             long startTime = System.nanoTime();
             Object retVal = method.invoke(target, args);
@@ -46,14 +50,10 @@ public class CGLibTimerInterceptor implements MethodInterceptor{
         }
     }
 
-    private TimeRecorder getTimeRecorder(Method method) {
-        if (timeRecorders.containsKey(method)) {
-            TimeRecorder timeRecorder = timeRecorders.get(method);
-            if (timeRecorder == null) {
-                timeRecorder = timeRecorderFactory.create(method);
-                timeRecorders.put(method, timeRecorder);
-            }
-            return timeRecorder;
+    private TimeRecorder getTimeRecorder(Class<?> clz, Method method) {
+        String signature = ReflectionUtil.signature(clz, method);
+        if (timeRecorderMap.containsKey(signature)) {
+            return timeRecorderMap.get(signature);
         }
         return null;
     }

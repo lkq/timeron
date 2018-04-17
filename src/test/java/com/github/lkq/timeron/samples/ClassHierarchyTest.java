@@ -57,10 +57,16 @@ public class ClassHierarchyTest {
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
-        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother\":{\"total\":1,\"count\":30,\"avg\":1234}}]", stats,
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother(String)\":{\"total\":12345,\"count\":10,\"avg\":1234}}," +
+                        "{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMother(String)\":{\"total\":12345,\"count\":10,\"avg\":1234}}," +
+                        "{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Daughter.implInMother(String)\":{\"total\":12345,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother.total", (o1, o2) -> ((int)o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother.avg", (o1, o2) -> ((int)o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother(String).total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother(String).avg", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[1].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMother(String).total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[1].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMother(String).avg", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[2].com.github.lkq.timeron.samples.ClassHierarchyTest$Daughter.implInMother(String).total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[2].com.github.lkq.timeron.samples.ClassHierarchyTest$Daughter.implInMother(String).avg", (o1, o2) -> ((int)o2) > 0)
                 ));
 
     }
@@ -133,10 +139,10 @@ public class ClassHierarchyTest {
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
-        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMotherOverrideInSon\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMotherOverrideInSon(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMotherOverrideInSon.total", (o1, o2) -> ((int)o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMotherOverrideInSon.avg", (o1, o2) -> ((int)o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMotherOverrideInSon(String).total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMotherOverrideInSon(String).avg", (o1, o2) -> ((int)o2) > 0)
                 ));
     }
 

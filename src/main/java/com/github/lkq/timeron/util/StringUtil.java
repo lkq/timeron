@@ -8,19 +8,6 @@ public class StringUtil {
         return value == null || "".equals(value.trim());
     }
 
-    public static String signature(Class<?> clz, Method method) {
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        StringBuilder signature = new StringBuilder(clz.getName()).append(".").append(method.getName()).append("(");
-        String comma = "";
-        for (Class<?> parameterType : parameterTypes) {
-            signature.append(comma).append(parameterType.getSimpleName());
-            comma = ",";
-        }
-        signature.append(")");
-
-        return signature.toString();
-    }
-
     public static String toString(Method method) {
         StringBuilder keyBuilder = new StringBuilder(100)
                 .append(method.getDeclaringClass().getName())

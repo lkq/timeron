@@ -3,6 +3,7 @@ package com.github.lkq.timeron.proxy;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import com.github.lkq.timeron.measure.TimeRecorder;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
+import com.github.lkq.timeron.util.ReflectionUtil;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,10 +36,10 @@ class CGLibTimerInterceptorTest {
     @Test
     void willMeasurePerformanceForInterceptedMethod() throws Throwable {
         Method tagInSon = Son.class.getDeclaredMethod("implInSon", String.class);
+        given(recorderFactory.create(ReflectionUtil.signature(Son.class, tagInSon))).willReturn(timeRecorder);
         interceptor = new CGLibTimerInterceptor(new Son("kingson"), Arrays.asList(tagInSon), recorderFactory);
 
-        given(recorderFactory.create(tagInSon)).willReturn(timeRecorder);
-        Object retVal = interceptor.intercept(null, tagInSon, new String[]{"test"}, null);
+        Object retVal = interceptor.intercept(new Son("abc"){}, tagInSon, new String[]{"test"}, null);
 
         assertThat(retVal, CoreMatchers.is("implInSon-test"));
         verify(timeRecorder, times(1)).record(anyLong(), anyLong());

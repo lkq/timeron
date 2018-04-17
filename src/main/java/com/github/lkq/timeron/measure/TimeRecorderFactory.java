@@ -1,17 +1,16 @@
 package com.github.lkq.timeron.measure;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TimeRecorderFactory {
-    private Map<Method, TimeRecorder> timeRecorders = new HashMap<>();
+    private Map<String, TimeRecorder> timeRecorders = new HashMap<>();
 
-    public TimeRecorder create(Method method) {
+    public TimeRecorder create(String method) {
         return timeRecorders.computeIfAbsent(method, (k) -> new TimeRecorder());
     }
 
-    public Map<Method, TimeRecorder> getTimers() {
+    public Map<String, TimeRecorder> getTimers() {
         return timeRecorders;
     }
 }

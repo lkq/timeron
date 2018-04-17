@@ -40,10 +40,10 @@ public class NormalClassTest {
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
-        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.hierarchy.lv3.Son.implInSon\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.hierarchy.lv3.Son.implInSon(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.implInSon.total", (o1, o2) -> ((int)o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.implInSon.avg", (o1, o2) -> ((int)o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.implInSon(String).total", (o1, o2) -> ((int)o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.hierarchy.lv3.Son.implInSon(String).avg", (o1, o2) -> ((int)o2) > 0)
                 ));
     }
 }
