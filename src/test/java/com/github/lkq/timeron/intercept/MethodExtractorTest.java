@@ -1,7 +1,6 @@
 package com.github.lkq.timeron.intercept;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -24,9 +23,9 @@ class MethodExtractorTest {
         methodExtractor = new MethodExtractor();
     }
 
-    private void runTest(Class<Son> clz, Method[] expectedMethods) {
-        Method[] methods = methodExtractor.interceptedMethods(clz, interceptedMethods).toArray(new Method[0]);
-        assertArrayEquals(methods, expectedMethods);
+    private void runTest(Class<Son> clz, MeasuredMethod[] expectedMethods) throws NoSuchMethodException {
+        List<MeasuredMethod> methods = methodExtractor.extract(clz, interceptedMethods);
+        assertArrayEquals(methods.toArray(new MeasuredMethod[0]), expectedMethods);
     }
 
     @Test
@@ -34,17 +33,16 @@ class MethodExtractorTest {
         Method implInSon = Son.class.getDeclaredMethod("implInSon", String.class);
 
         interceptedMethods.put(Son.class, Arrays.asList(implInSon));
-        runTest(Son.class, new Method[]{implInSon});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, implInSon)});
     }
 
-    @Disabled("pending implementation")
     @Test
     void canExtractInheritedMethod() throws NoSuchMethodException {
 
         Method implInMother = Mother.class.getDeclaredMethod("implInMother", String.class);
 
         interceptedMethods.put(Mother.class, Arrays.asList(implInMother));
-        runTest(Son.class, new Method[]{implInMother});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, implInMother)});
     }
 
     @Test
@@ -54,16 +52,15 @@ class MethodExtractorTest {
 
         interceptedMethods.put(Mother.class, Arrays.asList(motherMethod));
         interceptedMethods.put(Son.class, Arrays.asList(sonMethod));
-        runTest(Son.class, new Method[]{sonMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, sonMethod), new MeasuredMethod(Son.class, motherMethod)});
     }
 
-    @Disabled("pending implementation")
     @Test
     void canExtractOverrideMethodFromParentClass() throws NoSuchMethodException {
         Method motherMethod = Mother.class.getDeclaredMethod("implInMotherOverrideInSon", String.class);
 
         interceptedMethods.put(Mother.class, Arrays.asList(motherMethod));
-        runTest(Son.class, new Method[]{motherMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, motherMethod)});
     }
 
     @Test
@@ -73,16 +70,15 @@ class MethodExtractorTest {
 
         interceptedMethods.put(Son.class, Arrays.asList(sonMethod));
         interceptedMethods.put(Mother.class, Arrays.asList(motherMethod));
-        runTest(Son.class, new Method[]{sonMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, sonMethod), new MeasuredMethod(Son.class, motherMethod)});
     }
 
-    @Disabled("pending implementation")
     @Test
     void canExtractImplementedAbstractMethodFromParentClass() throws NoSuchMethodException {
         Method motherMethod = Mother.class.getDeclaredMethod("declaredInMotherImplInSon", String.class);
 
         interceptedMethods.put(Mother.class, Arrays.asList(motherMethod));
-        runTest(Son.class, new Method[]{motherMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, motherMethod)});
     }
 
     @Test
@@ -90,16 +86,15 @@ class MethodExtractorTest {
         Method grandmaMethod = Son.class.getDeclaredMethod("declaredInGrandmaImplInSon", String.class);
 
         interceptedMethods.put(Son.class, Arrays.asList(grandmaMethod));
-        runTest(Son.class, new Method[]{grandmaMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, grandmaMethod)});
     }
 
-    @Disabled("pending implementation")
     @Test
     void canExtractImplementedInterfaceMethodFromParentInterface() throws NoSuchMethodException {
         Method grandmaMethod = Grandma.class.getDeclaredMethod("declaredInGrandmaImplInSon", String.class);
 
         interceptedMethods.put(Grandma.class, Arrays.asList(grandmaMethod));
-        runTest(Son.class, new Method[]{grandmaMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, grandmaMethod)});
     }
 
     @Test
@@ -107,16 +102,15 @@ class MethodExtractorTest {
         Method grandmaMethod = Son.class.getDeclaredMethod("declaredInGrandMaImplInMotherOverrideInSon", String.class);
 
         interceptedMethods.put(Son.class, Arrays.asList(grandmaMethod));
-        runTest(Son.class, new Method[]{grandmaMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, grandmaMethod)});
     }
 
-    @Disabled("pending implementation")
     @Test
     void canExtractOverrideInterfaceMethodFromParentInterface() throws NoSuchMethodException {
         Method grandmaMethod = Grandma.class.getDeclaredMethod("declaredInGrandMaImplInMotherOverrideInSon", String.class);
 
         interceptedMethods.put(Grandma.class, Arrays.asList(grandmaMethod));
-        runTest(Son.class, new Method[]{grandmaMethod});
+        runTest(Son.class, new MeasuredMethod[]{new MeasuredMethod(Son.class, grandmaMethod)});
     }
 
     public interface Grandma {
