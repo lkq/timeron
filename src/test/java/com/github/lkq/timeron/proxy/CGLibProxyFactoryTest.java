@@ -2,10 +2,8 @@ package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
-import com.github.lkq.timeron.measure.TimeRecorders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.Collections;
 
@@ -14,9 +12,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 class CGLibProxyFactoryTest {
-
-    @Mock
-    private TimeRecorders timeRecorders;
 
     @BeforeEach
     void setUp() {
