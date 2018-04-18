@@ -1,5 +1,6 @@
 package com.github.lkq.timeron.proxy;
 
+import com.github.lkq.timeron.intercept.MeasuredMethod;
 import com.github.lkq.timeron.measure.TimeRecorder;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import com.github.lkq.timeron.util.ReflectionUtil;
@@ -14,24 +15,23 @@ import java.util.Objects;
 
 public class CGLibTimerInterceptor implements MethodInterceptor{
     private Object target;
-    private TimeRecorderFactory timeRecorderFactory;
-
-    private Map<Method, TimeRecorder> timeRecorders;
     private Map<String, TimeRecorder> timeRecorderMap;
 
-    public <T> CGLibTimerInterceptor(T target, List<Method> interceptedMethods, TimeRecorderFactory timeRecorderFactory) {
+    public <T> CGLibTimerInterceptor(T target, List<MeasuredMethod> interceptedMethods, TimeRecorderFactory timeRecorderFactory) {
         Objects.requireNonNull(target, "proxy target is required");
         Objects.requireNonNull(interceptedMethods, "interceptedMethods is required");
         Objects.requireNonNull(timeRecorderFactory, "timeRecorderFactory is required");
 
         this.target = target;
-        this.timeRecorderFactory = timeRecorderFactory;
 
         Class<?> clz = target.getClass();
 
         timeRecorderMap = new HashMap<>();
-        for (Method method : interceptedMethods) {
-            timeRecorderMap.put(ReflectionUtil.signature(clz, method), timeRecorderFactory.create(ReflectionUtil.signature(clz, method)));
+        for (MeasuredMethod method : interceptedMethods) {
+            if (!clz.equals(method.clz())) {
+                throw new IllegalArgumentException("measured method " + method + " is not for class" + clz.getName());
+            }
+            timeRecorderMap.put(method.signature(), timeRecorderFactory.create(method.signature()));
         }
     }
 

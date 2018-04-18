@@ -22,8 +22,8 @@ public class InterceptContext implements MethodInterceptor {
         this.proxyFactory = proxyFactory;
     }
 
-    public <T> T createProxy(T target) {
-        return proxyFactory.create(target, interceptor.getInterceptedMethods(target.getClass()));
+    public <T> T createProxy(T target) throws NoSuchMethodException {
+        return proxyFactory.create(target, interceptor.getMeasuredMethods(target.getClass()));
     }
 
     public <T> T intercept(Class<T> clz) {

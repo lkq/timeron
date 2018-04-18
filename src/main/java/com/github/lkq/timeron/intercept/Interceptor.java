@@ -11,7 +11,13 @@ public class Interceptor {
     private static Logger logger = Logger.getLogger(Interceptor.class.getSimpleName());
 
     private Map<Class, List<Method>> interceptedMethods = new HashMap<>();
+    private MethodExtractor methodExtractor;
+
     private Method interceptingMethod;
+
+    public Interceptor(MethodExtractor methodExtractor) {
+        this.methodExtractor = methodExtractor;
+    }
 
     public void startIntercept(Method method) {
         if (this.interceptingMethod != null) {
@@ -32,31 +38,8 @@ public class Interceptor {
         this.interceptingMethod = null;
     }
 
-    /**
-     * walk through the class hierarchy to extract the intercepted methods
-     *
-     * @param clz
-     * @return
-     */
-    public List<Method> getInterceptedMethods(Class<?> clz) {
-        ArrayList<Method> methods = new ArrayList<>();
-        if (interceptedMethods.containsKey(clz)) {
-            methods.addAll(interceptedMethods.get(clz));
-        }
-
-        methods.addAll(getSuperClassInterceptedMethods(clz, interceptedMethods));
-        return methods;
+    public List<MeasuredMethod> getMeasuredMethods(Class<?> clz) throws NoSuchMethodException {
+        return methodExtractor.extract(clz, this.interceptedMethods);
     }
 
-    private List<Method> getSuperClassInterceptedMethods(Class<?> clz, Map<Class, List<Method>> interceptedMethods) {
-        Class<?> superClz = clz.getSuperclass();
-        List<Method> methods = new ArrayList<>();
-        while (superClz != null && !Object.class.equals(superClz)) {
-            if (interceptedMethods.containsKey(superClz)) {
-                methods.addAll(interceptedMethods.get(superClz));
-            }
-            superClz = superClz.getSuperclass();
-        }
-        return methods;
-    }
 }

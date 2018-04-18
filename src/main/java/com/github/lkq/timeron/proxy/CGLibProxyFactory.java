@@ -1,6 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.TimerException;
+import com.github.lkq.timeron.intercept.MeasuredMethod;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
@@ -8,7 +9,6 @@ import net.sf.cglib.proxy.Factory;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class CGLibProxyFactory {
@@ -20,14 +20,14 @@ public class CGLibProxyFactory {
         this.timeRecorderFactory = timeRecorderFactory;
     }
 
-    public <T> T create(T target, List<Method> interceptedMethods) {
+    public <T> T create(T target, List<MeasuredMethod> measuredMethods) {
         try {
             Class<?> rootClass = target.getClass();
 
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(rootClass);
 
-            CGLibTimerInterceptor callback = new CGLibTimerInterceptor(target, interceptedMethods, timeRecorderFactory);
+            CGLibTimerInterceptor callback = new CGLibTimerInterceptor(target, measuredMethods, timeRecorderFactory);
             enhancer.setCallbackFilter(method -> 0);
             enhancer.setCallbackType(callback.getClass());
             return (T) createProxyClassAndInstance(enhancer, new Callback[]{callback});

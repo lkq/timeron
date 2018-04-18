@@ -2,13 +2,14 @@ package com.github.lkq.timeron;
 
 import com.github.lkq.timeron.intercept.InterceptContext;
 import com.github.lkq.timeron.intercept.Interceptor;
+import com.github.lkq.timeron.intercept.MethodExtractor;
 import com.github.lkq.timeron.intercept.ProxyFactory;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
 
 public class Timer {
 
     private final TimeRecorderFactory timeRecorderFactory = new TimeRecorderFactory();
-    private final InterceptContext context = new InterceptContext(new Interceptor(), new ProxyFactory(timeRecorderFactory));
+    private final InterceptContext context = new InterceptContext(new Interceptor(new MethodExtractor()), new ProxyFactory(timeRecorderFactory));
 
     /**
      * create a CGLib proxy over the target object
@@ -18,7 +19,11 @@ public class Timer {
      * @return
      */
     public <T> T on(T target) {
-        return context.createProxy(target);
+        try {
+            return context.createProxy(target);
+        } catch (NoSuchMethodException e) {
+            throw new TimerException("unable to create proxy for" + target, e);
+        }
     }
 
     /**

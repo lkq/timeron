@@ -1,6 +1,7 @@
 package com.github.lkq.timeron.proxy;
 
 import com.github.lkq.timeron.hierarchy.lv3.Son;
+import com.github.lkq.timeron.intercept.MeasuredMethod;
 import com.github.lkq.timeron.measure.TimeRecorder;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import com.github.lkq.timeron.util.ReflectionUtil;
@@ -37,7 +38,7 @@ class CGLibTimerInterceptorTest {
     void willMeasurePerformanceForInterceptedMethod() throws Throwable {
         Method tagInSon = Son.class.getDeclaredMethod("implInSon", String.class);
         given(recorderFactory.create(ReflectionUtil.signature(Son.class, tagInSon))).willReturn(timeRecorder);
-        interceptor = new CGLibTimerInterceptor(new Son("kingson"), Arrays.asList(tagInSon), recorderFactory);
+        interceptor = new CGLibTimerInterceptor(new Son("kingson"), Arrays.asList(new MeasuredMethod(Son.class, tagInSon)), recorderFactory);
 
         Object retVal = interceptor.intercept(new Son("abc"){}, tagInSon, new String[]{"test"}, null);
 

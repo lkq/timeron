@@ -46,7 +46,7 @@ class InterceptContextTest {
     }
 
     @Test
-    void canCreateProxy() {
+    void canCreateProxy() throws NoSuchMethodException {
 
         InterceptContext context = new InterceptContext(interceptor, proxyFactory);
         Son kingson = new Son("kingson");

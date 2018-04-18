@@ -5,36 +5,35 @@ import com.github.lkq.timeron.hierarchy.lv2.Mother;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 class InterceptorTest {
 
     private Interceptor interceptor;
+    @Mock
+    private MethodExtractor methodExtractor;
+    @Mock
+    private List expectedMeasuredMethods;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        interceptor = new Interceptor();
-    }
-
-    @Disabled("pending implementation")
-    @Test
-    void canSetupMethodInterception() throws Throwable {
-        Method tagInSon = Son.class.getMethod("implInSon", String.class);
-        interceptor.startIntercept(tagInSon);
-        interceptor.completeIntercept();
-
-        assertTrue(false, "implementation changed");
-
+        interceptor = new Interceptor(methodExtractor);
     }
 
     @Test
@@ -58,21 +57,40 @@ class InterceptorTest {
         interceptor.startIntercept(Son.class.getMethod("implInMother", String.class));
         interceptor.completeIntercept();
 
-        List<Method> interceptedMethods = interceptor.getInterceptedMethods(Son.class);
-        assertThat(interceptedMethods.size(), is(2));
-        assertThat(interceptedMethods.get(0), is(Son.class.getMethod("implInSon", String.class)));
-        assertThat(interceptedMethods.get(1), is(Son.class.getMethod("implInMother", String.class)));
+        given(methodExtractor.extract(eq(Son.class), any(Map.class))).willReturn(expectedMeasuredMethods);
+
+        List<MeasuredMethod> measuredMethods = interceptor.getMeasuredMethods(Son.class);
+        assertThat(measuredMethods, is(expectedMeasuredMethods));
+
+        ArgumentCaptor<Map> methodArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(methodExtractor, times(1)).extract(eq(Son.class), methodArgumentCaptor.capture());
+        Map<Class, List<Method>> methodMap = methodArgumentCaptor.getValue();
+        assertThat(methodMap.size(), is(2));
+        assertThat(methodMap.get(Son.class).get(0), is(Son.class.getDeclaredMethod("implInSon", String.class)));
+        assertThat(methodMap.get(Mother.class).get(0), is(Mother.class.getDeclaredMethod("implInMother", String.class)));
     }
 
     @Test
     void canGetInterceptedAbstractSuperMethodsByClass() throws NoSuchMethodException {
-        interceptor.startIntercept(Son.class.getMethod("implInSon", String.class));
+        interceptor.startIntercept(Son.class.getDeclaredMethod("implInSon", String.class));
         interceptor.completeIntercept();
-        interceptor.startIntercept(Son.class.getMethod("implInMother", String.class));
+        interceptor.startIntercept(Mother.class.getDeclaredMethod("implInMother", String.class));
+        interceptor.completeIntercept();
+        interceptor.startIntercept(Mother.class.getDeclaredMethod("declaredInMotherImplInChild", String.class));
         interceptor.completeIntercept();
 
-        List<Method> interceptedMethods = interceptor.getInterceptedMethods(Mother.class);
-        assertThat(interceptedMethods.size(), is(1));
-        assertThat(interceptedMethods.get(0), is(Son.class.getMethod("implInMother", String.class)));
+        given(methodExtractor.extract(eq(Mother.class), any(Map.class))).willReturn(expectedMeasuredMethods);
+
+        List<MeasuredMethod> measuredMethods = interceptor.getMeasuredMethods(Mother.class);
+        assertThat(measuredMethods, is(expectedMeasuredMethods));
+
+        ArgumentCaptor<Map> methodArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(methodExtractor, times(1)).extract(eq(Mother.class), methodArgumentCaptor.capture());
+        Map<Class, List<Method>> methodMap = methodArgumentCaptor.getValue();
+
+        assertThat(methodMap.size(), is(2));
+        assertThat(methodMap.get(Son.class).get(0), is(Son.class.getDeclaredMethod("implInSon", String.class)));
+        assertThat(methodMap.get(Mother.class).get(0), is(Mother.class.getDeclaredMethod("implInMother", String.class)));
+        assertThat(methodMap.get(Mother.class).get(1), is(Mother.class.getDeclaredMethod("declaredInMotherImplInChild", String.class)));
     }
 }

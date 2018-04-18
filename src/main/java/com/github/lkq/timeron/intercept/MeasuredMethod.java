@@ -21,6 +21,17 @@ public class MeasuredMethod {
         return signature;
     }
 
+    public Class<?> clz() {
+        return clz;
+    }
+
+    @Override
+    public String toString() {
+        return "MeasuredMethod{" +
+                "signature='" + signature + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
