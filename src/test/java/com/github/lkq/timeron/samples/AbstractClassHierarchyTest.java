@@ -30,7 +30,6 @@ public class AbstractClassHierarchyTest {
 
     private Logger logger = Logger.getLogger(AbstractClassHierarchyTest.class.getSimpleName());
 
-    @Disabled("pending implementation")
     @Test
     void measurementOnParentAbstractMethodCanBeInheritedByAllChild() throws JSONException {
         Timer timer = new Timer();
@@ -47,16 +46,20 @@ public class AbstractClassHierarchyTest {
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
-        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
-                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
-                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
+                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
+                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMotherImplInSon.total", (o1, o2) -> ((int) o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMotherImplInSon.avg", (o1, o2) -> ((int) o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[1].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[1].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[2].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[2].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0)
                 ));
     }
 
-    @Disabled("pending implementation")
+    @Disabled("pending fix")
     @Test
     void measurementOnChildImplementedAbstractMethodWontAffectOtherChildImplementation() throws JSONException {
         Timer timer = new Timer();
@@ -80,7 +83,6 @@ public class AbstractClassHierarchyTest {
                         new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother.avg", (o1, o2) -> ((int) o2) > 0)
                 ));
     }
-
 
     private void execute(Supplier<String> supplier, String expectedRetVal, int repeats) {
         for (int i = 0; i < repeats - 1; i++) {
