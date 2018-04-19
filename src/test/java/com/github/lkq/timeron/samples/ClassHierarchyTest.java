@@ -2,7 +2,6 @@ package com.github.lkq.timeron.samples;
 
 import com.github.lkq.timeron.Timer;
 import org.json.JSONException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -101,9 +100,8 @@ public class ClassHierarchyTest {
 
     }
 
-    @Disabled("pending fix")
     @Test
-    void measurementOnChildMethodWontAffectParentClassAndItsOtherSubClass() throws JSONException {
+    void measurementOnChildMethodWillNotAffectParentClassAndItsOtherSubClass() throws JSONException {
         Timer timer = new Timer();
         Son fakeSon = timer.intercept(Son.class);
         timer.measure(fakeSon.implInMother(""));
@@ -118,10 +116,10 @@ public class ClassHierarchyTest {
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
-        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother.total", (o1, o2) -> ((int) o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Mother.implInMother.avg", (o1, o2) -> ((int) o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMother(String).total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.samples.ClassHierarchyTest$Son.implInMother(String).avg", (o1, o2) -> ((int) o2) > 0)
                 ));
     }
 

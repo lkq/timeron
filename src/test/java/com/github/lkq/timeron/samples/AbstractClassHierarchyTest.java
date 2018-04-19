@@ -2,7 +2,6 @@ package com.github.lkq.timeron.samples;
 
 import com.github.lkq.timeron.Timer;
 import org.json.JSONException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -59,9 +58,8 @@ public class AbstractClassHierarchyTest {
                 ));
     }
 
-    @Disabled("pending fix")
     @Test
-    void measurementOnChildImplementedAbstractMethodWontAffectOtherChildImplementation() throws JSONException {
+    void measurementOnChildImplementedAbstractMethodWillNotAffectOtherChildImplementation() throws JSONException {
         Timer timer = new Timer();
         Son sonInterceptor = timer.intercept(Son.class);
         timer.measure(sonInterceptor.declaredInMother(""));
@@ -76,11 +74,13 @@ public class AbstractClassHierarchyTest {
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
-        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
-                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+        JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
+                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
-                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother.total", (o1, o2) -> ((int) o2) > 0),
-                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother.avg", (o1, o2) -> ((int) o2) > 0)
+                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[1].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
+                        new Customization("[1].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0)
                 ));
     }
 
