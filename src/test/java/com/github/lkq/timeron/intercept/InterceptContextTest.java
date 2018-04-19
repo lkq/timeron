@@ -41,7 +41,7 @@ class InterceptContextTest {
 
         context.completeIntercept();
 
-        verify(interceptor, times(1)).startIntercept(Son.class.getMethod("implInSon", String.class));
+        verify(interceptor, times(1)).startIntercept(Son.class, Son.class.getDeclaredMethod("implInSon", String.class));
         verify(interceptor, times(1)).completeIntercept();
     }
 
@@ -59,17 +59,17 @@ class InterceptContextTest {
 
     @Test
     void willStartInterceptionWhenInterceptMethodCalled() throws Throwable {
-        Method tagInSon = Son.class.getMethod("implInSon", String.class);
-        context.intercept(null, tagInSon, null, null);
+        Method tagInSon = Son.class.getDeclaredMethod("implInSon", String.class);
+        context.intercept(new Son(""){}, tagInSon, null, null);
         context.completeIntercept();
 
-        verify(interceptor, times(1)).startIntercept(tagInSon);
+        verify(interceptor, times(1)).startIntercept(Son.class, tagInSon);
     }
 
     @Test
     void willCompleteInterceptionWhenInterceptMethodCalled() throws Throwable {
         Method tagInSon = Son.class.getMethod("implInSon", String.class);
-        context.intercept(null, tagInSon, null, null);
+        context.intercept(new Son(""){}, tagInSon, null, null);
         context.completeIntercept();
 
         verify(interceptor, times(1)).completeIntercept();

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CGLibTimerInterceptor implements MethodInterceptor{
+public class CGLibTimerInterceptor implements MethodInterceptor {
     private Object target;
     private Map<String, TimeRecorder> timeRecorderMap;
 
@@ -28,7 +28,7 @@ public class CGLibTimerInterceptor implements MethodInterceptor{
 
         timeRecorderMap = new HashMap<>();
         for (MeasuredMethod method : interceptedMethods) {
-            if (!clz.equals(method.clz())) {
+            if (!method.clz().isAssignableFrom(clz)) {
                 throw new IllegalArgumentException("measured method " + method + " is not for class" + clz.getName());
             }
             timeRecorderMap.put(method.signature(), timeRecorderFactory.create(method.signature()));

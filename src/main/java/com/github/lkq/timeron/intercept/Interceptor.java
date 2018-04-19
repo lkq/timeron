@@ -10,32 +10,32 @@ import java.util.logging.Logger;
 public class Interceptor {
     private static Logger logger = Logger.getLogger(Interceptor.class.getSimpleName());
 
-    private Map<Class, List<Method>> interceptedMethods = new HashMap<>();
+    private Map<Class, List<MeasuredMethod>> interceptedMethods = new HashMap<>();
     private MethodExtractor methodExtractor;
 
-    private Method interceptingMethod;
+    private MeasuredMethod interceptedMethodInProgress;
 
     public Interceptor(MethodExtractor methodExtractor) {
         this.methodExtractor = methodExtractor;
     }
 
-    public void startIntercept(Method method) {
-        if (this.interceptingMethod != null) {
-            throw new TimerException("unfinished interception detected on " + this.interceptingMethod);
+    public void startIntercept(Class<?> clz, Method method) throws NoSuchMethodException {
+        if (this.interceptedMethodInProgress != null) {
+            throw new TimerException("unfinished interception detected on " + this.interceptedMethodInProgress.signature());
         }
-        logger.log(Level.INFO, "start intercepting method: " + method.toString());
-        this.interceptingMethod = method;
+        logger.log(Level.INFO, "start intercepting method: " + clz.getName() + "." + method.toString());
+        this.interceptedMethodInProgress = new MeasuredMethod(clz, method);
     }
 
     public void completeIntercept() {
-        if (this.interceptingMethod == null) {
+        if (this.interceptedMethodInProgress == null) {
             throw new TimerException("no interception in progress");
         }
-        Class<?> clz = interceptingMethod.getDeclaringClass();
-        List<Method> methods = this.interceptedMethods.computeIfAbsent(clz, k -> new ArrayList<>());
-        methods.add(interceptingMethod);
-        logger.log(Level.INFO, "finished intercepting method: " + this.interceptingMethod.toString());
-        this.interceptingMethod = null;
+        Class<?> clz = interceptedMethodInProgress.clz();
+        List<MeasuredMethod> methods = this.interceptedMethods.computeIfAbsent(clz, k -> new ArrayList<>());
+        methods.add(interceptedMethodInProgress);
+        logger.log(Level.INFO, "finished intercepting method: " + this.interceptedMethodInProgress.signature());
+        this.interceptedMethodInProgress = null;
     }
 
     public List<MeasuredMethod> getMeasuredMethods(Class<?> clz) throws NoSuchMethodException {

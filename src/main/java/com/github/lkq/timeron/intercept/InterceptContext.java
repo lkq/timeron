@@ -51,7 +51,8 @@ public class InterceptContext implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        interceptor.startIntercept(method);
+        Class<?> clz = obj.getClass().getSuperclass();
+        interceptor.startIntercept(clz, method);
         return null;
     }
 }

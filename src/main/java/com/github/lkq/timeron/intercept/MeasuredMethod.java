@@ -25,6 +25,10 @@ public class MeasuredMethod {
         return clz;
     }
 
+    public Method method() {
+        return method;
+    }
+
     @Override
     public String toString() {
         return "MeasuredMethod{" +
