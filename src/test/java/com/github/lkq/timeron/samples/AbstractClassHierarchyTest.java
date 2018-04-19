@@ -40,14 +40,14 @@ public class AbstractClassHierarchyTest {
         Daughter daughter = timer.on(new Daughter());
 
         execute(() -> son.declaredInMother("test"), "Son.declaredInMother-test", 10);
-        execute(() -> grandson.declaredInMother("test"), "Son.declaredInMother-test", 10);
-        execute(() -> daughter.declaredInMother("test"), "Daughter.declaredInMother-test", 10);
+        execute(() -> grandson.declaredInMother("test"), "Son.declaredInMother-test", 11);
+        execute(() -> daughter.declaredInMother("test"), "Daughter.declaredInMother-test", 12);
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
         JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
-                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
-                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Daughter.declaredInMother(String)\":{\"total\":1,\"count\":12,\"avg\":1234}}," +
+                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String)\":{\"total\":1,\"count\":11,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
                         new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
                         new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0),
@@ -69,13 +69,13 @@ public class AbstractClassHierarchyTest {
         Daughter daughter = timer.on(new Daughter());
 
         execute(() -> son.declaredInMother("test"), "Son.declaredInMother-test", 10);
-        execute(() -> grandson.declaredInMother("test"), "Son.declaredInMother-test", 10);
-        execute(() -> daughter.declaredInMother("test"), "Daughter.declaredInMother-test", 10);
+        execute(() -> grandson.declaredInMother("test"), "Son.declaredInMother-test", 11);
+        execute(() -> daughter.declaredInMother("test"), "Daughter.declaredInMother-test", 12);
 
         String stats = timer.getStats();
         logger.info("actual:" + stats);
         JSONAssert.assertEquals("[{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}," +
-                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String)\":{\"total\":1,\"count\":10,\"avg\":1234}}]", stats,
+                        "{\"com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Grandson.declaredInMother(String)\":{\"total\":1,\"count\":11,\"avg\":1234}}]", stats,
                 new CustomComparator(JSONCompareMode.STRICT,
                         new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).total", (o1, o2) -> ((int) o2) > 0),
                         new Customization("[0].com.github.lkq.timeron.samples.AbstractClassHierarchyTest$Son.declaredInMother(String).avg", (o1, o2) -> ((int) o2) > 0),
