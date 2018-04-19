@@ -16,23 +16,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * measure(Mother.implInMother)
- * mother.implInMother()       - measured
- * son.implInMother()          - measured
- * daughter.implInMother()     - measured
+ * mother.implInMother()       - measured as Mother
+ * son.implInMother()          - measured as Son
+ * daughter.implInMother()     - measured as Daughter
  * <p>
  * measure(Mother.implInMotherOverrideInSon)
- * mother.implInMotherOverrideInSon()      - measured
- * son.implInMotherOverrideInSon()         - measured
- * daughter.implInMotherOverrideInSon()    - measured
+ * mother.implInMotherOverrideInSon()      - measured as Mother
+ * son.implInMotherOverrideInSon()         - measured as Son
+ * daughter.implInMotherOverrideInSon()    - measured as Daughter
  * <p>
  * measure(Son.implInMother)
  * mother.implInMother()   - not measured
- * son.implInMother()      - measured
+ * son.implInMother()      - measured as Son
  * daughter.implInMother() - not measured
  * <p>
  * measure(Son.implInMotherOverrideInSon)
  * mother.implInMotherOverrideInSon()      - not measured
- * son.implInMotherOverrideInSon()         - measured
+ * son.implInMotherOverrideInSon()         - measured as Son
  * daughter.implInMotherOverrideInSon()    - not measured
  */
 
