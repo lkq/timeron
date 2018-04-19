@@ -124,7 +124,7 @@ public class ClassHierarchyTest {
     }
 
     @Test
-    void measurementOnChildOverrideMethodWontAffectParentClassAndItsOtherSubClass() throws JSONException {
+    void measurementOnChildOverrideMethodWillNotAffectParentClassAndItsOtherSubClass() throws JSONException {
         Timer timer = new Timer();
         Son fakeSon = timer.intercept(Son.class);
         timer.measure(fakeSon.implInMotherOverrideInSon(""));
