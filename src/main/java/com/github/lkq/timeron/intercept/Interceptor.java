@@ -23,12 +23,6 @@ public class Interceptor {
         if (this.interceptedMethodInProgress != null) {
             throw new TimerException("unfinished interception detected on " + this.interceptedMethodInProgress.signature());
         }
-        if (clz == null || clz.equals(Object.class)) {
-            clz = method.getDeclaringClass();
-            if (clz.equals(Object.class)) {
-                return;
-            }
-        }
         logger.log(Level.INFO, "start intercepting method: " + clz.getName() + "." + method.toString());
         this.interceptedMethodInProgress = new MeasuredMethod(clz, method);
     }
