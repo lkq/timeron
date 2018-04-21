@@ -37,7 +37,7 @@ public class Timer {
      * @return
      */
     public <T> T intercept(Class<T> clz) {
-        return context.intercept(clz);
+        return context.createInterceptor(clz);
     }
 
     /**

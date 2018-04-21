@@ -35,7 +35,7 @@ class InterceptContextTest {
     @Test
     void canStubMethodCalls() throws Throwable {
 
-        Son son = context.intercept(Son.class);
+        Son son = context.createInterceptor(Son.class);
 
         son.implInSon(null);
 
@@ -60,7 +60,7 @@ class InterceptContextTest {
     @Test
     void willStartInterceptionWhenInterceptMethodCalled() throws Throwable {
         Method tagInSon = Son.class.getDeclaredMethod("implInSon", String.class);
-        context.intercept(new Son(""){}, tagInSon, null, null);
+        context.intercept(new Son(""), tagInSon, null, null);
         context.completeIntercept();
 
         verify(interceptor, times(1)).startIntercept(Son.class, tagInSon);

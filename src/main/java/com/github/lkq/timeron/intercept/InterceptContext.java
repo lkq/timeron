@@ -26,7 +26,7 @@ public class InterceptContext implements MethodInterceptor {
         return proxyFactory.create(target, interceptor.getMeasuredMethods(target.getClass()));
     }
 
-    public <T> T intercept(Class<T> clz) {
+    public <T> T createInterceptor(Class<T> clz) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(clz);
         enhancer.setCallbackFilter(method -> 0);
