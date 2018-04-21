@@ -1,9 +1,16 @@
 package com.github.lkq.timeron;
 
+import com.github.lkq.timeron.hierarchy.lv2.Father;
+import com.github.lkq.timeron.hierarchy.lv3.Son;
+import com.github.lkq.timeron.intercept.MeasuredMethod;
+import net.sf.cglib.proxy.*;
 import org.junit.jupiter.api.Test;
+import org.objenesis.ObjenesisStd;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class ReflectionPlayground {
@@ -23,6 +30,51 @@ public class ReflectionPlayground {
         for (Method method : TestImplementation.class.getDeclaredMethods()) {
             logger.info("found declared method: " + method.toString());
         }
+    }
+
+    @Test
+    void cglibEnhancerSetInterface() {
+        Son kingson = create(new Son("kingson"), Collections.emptyList());
+        kingson.fromFatherTagInSon("test");
+    }
+
+
+    public <T> T create(T target, List<MeasuredMethod> measuredMethods) {
+        try {
+            Class<?> rootClass = target.getClass();
+
+            Enhancer enhancer = new Enhancer();
+            if (!rootClass.isInterface()) {
+                enhancer.setSuperclass(rootClass);
+            }
+            enhancer.setInterfaces(new Class[]{Father.class});
+
+            MethodInterceptor callback = new MethodInterceptor() {
+                @Override
+                public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+                    return method.invoke(target, args);
+                }
+            };
+            enhancer.setCallbackFilter(method -> 0);
+            enhancer.setCallbackType(callback.getClass());
+            return (T) createProxyClassAndInstance(enhancer, new Callback[]{callback});
+        } catch (Exception e) {
+            throw new TimerException("failed to create proxy", e);
+        }
+    }
+
+    protected Object createProxyClassAndInstance(Enhancer enhancer, Callback[] callbacks) {
+        Class<?> proxyClass = enhancer.createClass();
+        Object proxyInstance;
+
+        ObjenesisStd objenesis = new ObjenesisStd();
+        // TODO: add some cache to improve performance
+        proxyInstance = objenesis.newInstance(proxyClass);
+
+        // TODO: If objenesis doesn't work...
+
+        ((Factory) proxyInstance).setCallbacks(callbacks);
+        return proxyInstance;
     }
 
     interface TestInterface<T> {

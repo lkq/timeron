@@ -51,20 +51,37 @@ public class InterceptContext implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        Class<?> clz = obj.getClass();
-        Class<?> superClz = clz.getSuperclass();
-        if (superClz == null || superClz.equals(Object.class)) {
-            Class<?>[] interfaces = clz.getInterfaces();
-            for (Class<?> iface : interfaces) {
-                if (method.getDeclaringClass().isAssignableFrom(iface)) {
-                    clz = iface;
-                    break;
-                }
-            }
-        } else {
-            clz = clz.getSuperclass();
-        }
+        Class<?> clz = getInterceptingClass(obj, method);
         interceptor.startIntercept(clz, method);
         return null;
+    }
+
+    private Class<?> getInterceptingClass(Object obj, Method method) {
+
+        Class<?> clz = obj.getClass();
+        if (isProxyClass(clz)) {
+            Class<?> superClz = clz.getSuperclass();
+            if (superClz == null || superClz.equals(Object.class)) {
+                // intercepting interface
+                Class<?>[] interfaces = clz.getInterfaces();
+                for (Class<?> iface : interfaces) {
+                    if (method.getDeclaringClass().isAssignableFrom(iface)) {
+                        clz = iface;
+                        break;
+                    }
+                }
+            } else {
+                // intercepting class
+                clz = superClz;
+            }
+        }
+        return clz;
+    }
+
+    private boolean isProxyClass(Class clz) {
+        if (clz.getName().contains("$$EnhancerByCGLIB$$")) {
+            return true;
+        }
+        return false;
     }
 }
