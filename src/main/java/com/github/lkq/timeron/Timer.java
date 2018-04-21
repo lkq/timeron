@@ -12,8 +12,8 @@ public class Timer {
     private final InterceptContext context = new InterceptContext(new Interceptor(new MethodExtractor()), new ProxyFactory(timeRecorderFactory));
 
     /**
-     * create a CGLib proxy over the target object
-     * the proxy will measure the method call performance base on the Timer.measure() setup
+     * create a proxy over the target object for measuring the method call performance
+     * the measured method is defined by Timer.measure()
      * @param target
      * @param <T>
      * @return
@@ -29,19 +29,19 @@ public class Timer {
     /**
      * create a stub instance for setting up measurement, the method call on stub should pass to Timer.measure()
      * e.g
-     * SomeClass some = timer.intercept(SomeClass.class);
+     * SomeClass some = timer.interceptor(SomeClass.class);
      * timer.measure(some.someMethod());
      *
      * @param clz
      * @param <T>
      * @return
      */
-    public <T> T intercept(Class<T> clz) {
+    public <T> T interceptor(Class<T> clz) {
         return context.createInterceptor(clz);
     }
 
     /**
-     * add config to measure on the specific method call
+     * config to measure on the specific method call
      * @param methodCall
      * @param <T>
      */
@@ -50,7 +50,7 @@ public class Timer {
     }
 
     /**
-     * get the method call performance statistics
+     * get the method performance statistics
      * @return
      */
     public String getStats() {

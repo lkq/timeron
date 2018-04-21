@@ -26,8 +26,8 @@ public class MultiThreadSampleTest {
     void canRunInMultiThreadEnvironment() throws JSONException, InterruptedException {
 
         Timer timer = new Timer();
-        Mother motherInterceptor = timer.intercept(Mother.class);
-        Father fatherInterceptor = timer.intercept(Father.class);
+        Mother motherInterceptor = timer.interceptor(Mother.class);
+        Father fatherInterceptor = timer.interceptor(Father.class);
 
         timer.measure(motherInterceptor.declaredInMother(""));
         timer.measure(fatherInterceptor.declaredInFather(""));

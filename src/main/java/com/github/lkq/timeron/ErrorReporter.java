@@ -7,7 +7,7 @@ public class ErrorReporter {
     private static Logger logger = Logger.getLogger(ErrorReporter.class.getSimpleName());
 
     public static void missingMethodInvocation() {
-        logger.log(Level.SEVERE, "measure() requires an argument which has to be 'a method call on a object returned by intercept()'");
+        logger.log(Level.SEVERE, "measure() requires an argument which has to be 'a method call on a object returned by interceptor()'");
     }
 
     public static void missingMeasurementConfig(Class clz) {

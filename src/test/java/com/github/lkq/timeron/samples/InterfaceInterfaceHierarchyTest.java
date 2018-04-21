@@ -52,9 +52,9 @@ public class InterfaceInterfaceHierarchyTest {
     @Test
     void measurementOnMultipleGrandParentInterfaceWillBeInheritedByAllChildren() throws JSONException {
         Timer timer = new Timer();
-        Grandma grandma = timer.intercept(Grandma.class);
+        Grandma grandma = timer.interceptor(Grandma.class);
         timer.measure(grandma.declaredInGrandma(""));
-        Grandpa grandpa = timer.intercept(Grandpa.class);
+        Grandpa grandpa = timer.interceptor(Grandpa.class);
         timer.measure(grandpa.declaredInGrandpa(""));
 
         Son son = timer.on(new Son());
@@ -81,7 +81,7 @@ public class InterfaceInterfaceHierarchyTest {
     @Test
     void measurementOnGrandParentMethodUsingParentInterfaceWillBeInheritedByItsChildren() throws JSONException {
         Timer timer = new Timer();
-        Mother mother = timer.intercept(Mother.class);
+        Mother mother = timer.interceptor(Mother.class);
         timer.measure(mother.declaredInGrandma(""));
         timer.measure(mother.declaredInGrandpa(""));
 
@@ -107,8 +107,8 @@ public class InterfaceInterfaceHierarchyTest {
     @Test
     void measurementOnParentInterfaceWillBeInheritedByItsChildren() throws JSONException {
         Timer timer = new Timer();
-        Father father = timer.intercept(Father.class);
-        Mother mother = timer.intercept(Mother.class);
+        Father father = timer.interceptor(Father.class);
+        Mother mother = timer.interceptor(Mother.class);
         timer.measure(father.declaredInFather(""));
         timer.measure(mother.declaredInMother(""));
 
@@ -132,7 +132,7 @@ public class InterfaceInterfaceHierarchyTest {
     @Test
     void measurementOnParentMethodUsingChildClassWillNotAffectOtherChildren() throws JSONException {
         Timer timer = new Timer();
-        Son sonInterceptor = timer.intercept(Son.class);
+        Son sonInterceptor = timer.interceptor(Son.class);
         timer.measure(sonInterceptor.declaredInGrandma(""));
 
         Son son = timer.on(new Son());

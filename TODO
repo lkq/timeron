@@ -1,0 +1,3 @@
+can measure generic method
+allow adding custom callback to handle measurement event, e.g allowing a callback to send data to persistent storage
+
