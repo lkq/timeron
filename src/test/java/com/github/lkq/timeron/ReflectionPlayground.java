@@ -5,7 +5,7 @@ import com.github.lkq.timeron.hierarchy.lv3.Son;
 import com.github.lkq.timeron.intercept.MeasuredMethod;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.*;
 import org.junit.jupiter.api.Test;
-import org.objenesis.ObjenesisStd;
+import com.github.lkq.timeron.thirdparty.objenesis.ObjenesisStd;
 
 import java.lang.reflect.Method;
 import java.util.Collections;

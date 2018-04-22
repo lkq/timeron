@@ -6,8 +6,8 @@ import com.github.lkq.timeron.thirdparty.cglib.proxy.Enhancer;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.Factory;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.MethodInterceptor;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.MethodProxy;
-import org.objenesis.Objenesis;
-import org.objenesis.ObjenesisStd;
+import com.github.lkq.timeron.thirdparty.objenesis.Objenesis;
+import com.github.lkq.timeron.thirdparty.objenesis.ObjenesisStd;
 
 import java.lang.reflect.Method;
 

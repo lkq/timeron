@@ -6,8 +6,8 @@ import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.Callback;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.Enhancer;
 import com.github.lkq.timeron.thirdparty.cglib.proxy.Factory;
-import org.objenesis.Objenesis;
-import org.objenesis.ObjenesisStd;
+import com.github.lkq.timeron.thirdparty.objenesis.Objenesis;
+import com.github.lkq.timeron.thirdparty.objenesis.ObjenesisStd;
 
 import java.util.List;
 
