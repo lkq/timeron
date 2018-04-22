@@ -2,10 +2,10 @@ package com.github.lkq.timeron.intercept;
 
 import com.github.lkq.timeron.ErrorReporter;
 import com.github.lkq.timeron.TimerException;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.Enhancer;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.Factory;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.MethodInterceptor;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.MethodProxy;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 

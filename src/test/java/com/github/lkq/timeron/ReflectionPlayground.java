@@ -3,7 +3,7 @@ package com.github.lkq.timeron;
 import com.github.lkq.timeron.hierarchy.lv2.Father;
 import com.github.lkq.timeron.hierarchy.lv3.Son;
 import com.github.lkq.timeron.intercept.MeasuredMethod;
-import net.sf.cglib.proxy.*;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.*;
 import org.junit.jupiter.api.Test;
 import org.objenesis.ObjenesisStd;
 

@@ -3,9 +3,9 @@ package com.github.lkq.timeron.proxy;
 import com.github.lkq.timeron.TimerException;
 import com.github.lkq.timeron.intercept.MeasuredMethod;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.Callback;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.Enhancer;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.Factory;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 

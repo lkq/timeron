@@ -4,8 +4,8 @@ import com.github.lkq.timeron.intercept.MeasuredMethod;
 import com.github.lkq.timeron.measure.TimeRecorder;
 import com.github.lkq.timeron.measure.TimeRecorderFactory;
 import com.github.lkq.timeron.util.ReflectionUtil;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.MethodInterceptor;
+import com.github.lkq.timeron.thirdparty.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
