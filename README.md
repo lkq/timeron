@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/lkq/timeron.svg?branch=master)](https://travis-ci.org/lkq/timeron)
 
-A simple framework for measuring method call performance
+A simple framework for measuring performance in method call level using AOP
 
 ## Usage
 
@@ -40,8 +40,9 @@ more sample usage could be found in [here](src/test/java/com/github/lkq/timeron/
 
 
 ## TODO List
-1. add benchmark tests
-2. detach the measurement handling logic from the calling thread
-3. redesign result formatting
-4. support generic method
-5. allow adding callback to listen on measurement event
+- support void methods
+- add benchmark tests
+- detach the measurement handling logic from the calling thread
+- redesign result formatting
+- support generic method
+- allow adding callback to listen on measurement event
