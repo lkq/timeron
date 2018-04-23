@@ -8,6 +8,50 @@
     <artifactId>timeron</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
+    <name>Timeron</name>
+    <description>a simple framework for measuring method call performance</description>
+    <url>https://github.com/lkq/timeron</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/lkq/timeron.git</connection>
+        <url>https://github.com/lkq/timeron</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <ciManagement>
+        <system>travis-ci</system>
+        <url>https://travis-ci.org/lkq/timeron</url>
+    </ciManagement>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Kingson Liu</name>
+            <organizationUrl>https://github.com/lkq</organizationUrl>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
 
