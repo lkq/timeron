@@ -1,5 +1,7 @@
 # Timer On
 
+[![Build Status](https://travis-ci.org/lkq/timeron.svg?branch=master)](https://travis-ci.org/lkq/timeron)
+
 A simple framework for measuring method call performance
 
 ## Usage
