@@ -15,14 +15,15 @@ A simple framework for measuring method call performance
          }
     }
 
+    // setup
     Timer timer = new Timer();
-    UserSerivce serviceInterceptor = timer.interceptor(UserSerivce.class)
-    timer.measure(serviceInterceptor.getUser(""));
+    UserSerivce interceptor = timer.interceptor(UserSerivce.class)
+    timer.measure(interceptor.getUser(""));
 
-    UserService timedService = timer.on(new UserServiceImpl())
+    UserService userService = timer.on(new UserServiceImpl())
 
-    // method execution time will be measured
-    timedService.getUser("kingson");
+    // business logic
+    userService.getUser("kingson");
 
 results
 
@@ -36,3 +37,11 @@ results
     }}]
 
 more sample usage could be found in [here](src/test/java/com/github/lkq/timeron/samples/)
+
+
+## TODO List
+1. add benchmark tests
+2. detach the measurement handling logic from the calling thread
+3. redesign result formatting
+4. support generic method
+5. allow adding callback to listen on measurement event
