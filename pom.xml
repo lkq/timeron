@@ -11,6 +11,9 @@
 
     <dependencies>
 
+        <!--depends on objenesis, cglib and asm-->
+        <!--put the source code into com.github.lkq.timeron.thirdparty to void dependency conflict-->
+
         <!--testing depencency-->
         <dependency>
             <groupId>org.skyscreamer</groupId>
