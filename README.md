@@ -16,8 +16,8 @@ A simple framework for measuring method call performance
     }
 
     Timer timer = new Timer();
-    UserSerivce service = timer.intercept(UserSerivce.class)
-    timer.measure(service.getUser(""));
+    UserSerivce serviceInterceptor = timer.interceptor(UserSerivce.class)
+    timer.measure(serviceInterceptor.getUser(""));
 
     UserService timedService = timer.on(new UserServiceImpl())
 
@@ -35,3 +35,4 @@ results
         "avg": 9473
     }}]
 
+more sample usage could be found in [here](src/test/java/com/github/lkq/timeron/samples/)
