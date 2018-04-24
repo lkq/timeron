@@ -14,9 +14,9 @@ public class Timer {
     /**
      * create a proxy over the target object for measuring the method call performance
      * the measured method is defined by Timer.measure()
-     * @param target
-     * @param <T>
-     * @return
+     * @param target the target object to measure
+     * @param <T> generic type
+     * @return a call through proxy over the target object which will collect method call performance
      */
     public <T> T on(T target) {
         try {
@@ -32,9 +32,9 @@ public class Timer {
      * SomeClass some = timer.interceptor(SomeClass.class);
      * timer.measure(some.someMethod());
      *
-     * @param clz
-     * @param <T>
-     * @return
+     * @param clz the intercepting class
+     * @param <T> generic type
+     * @return a stub which could be used for setting up measurement
      */
     public <T> T interceptor(Class<T> clz) {
         return context.createInterceptor(clz);
@@ -42,8 +42,7 @@ public class Timer {
 
     /**
      * config to measure on the specific method call
-     * @param methodCall
-     * @param <T>
+     * @param methodCall intercepting method call
      */
     public void measure(Runnable methodCall) {
         methodCall.run();
@@ -52,7 +51,7 @@ public class Timer {
 
     /**
      * get the method performance statistics
-     * @return
+     * @return method performance statistics
      */
     public String getStats() {
         ReportBuilder reportBuilder = new ReportBuilder();

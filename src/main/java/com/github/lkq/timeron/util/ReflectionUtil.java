@@ -9,9 +9,10 @@ public class ReflectionUtil {
      * 1. the methods are in the same class hierarchy
      * 2. the methods have same name
      * 3. the methods have same parameter types
-     * @param method
-     * @param other
-     * @return
+     * @param method method object
+     * @param other another method object to compare
+     * @return true if the 2 method with the same name and same parameter list
+     * otherwise will return false
      */
     public static boolean methodSignatureEquals(Method method, Method other) {
         if (method.getDeclaringClass().isAssignableFrom(other.getDeclaringClass()) || other.getDeclaringClass().isAssignableFrom(method.getDeclaringClass())) {
@@ -37,10 +38,11 @@ public class ReflectionUtil {
 
     /**
      * create method signature with the invoking class.
+     * inherited method intercept using child class will result in a different method signature with the parent class
      *
-     * @param clz
-     * @param method
-     * @return
+     * @param clz class used for interception
+     * @param method the intercepting method
+     * @return a method signature
      */
     public static String signature(Class<?> clz, Method method) {
         Class<?>[] parameterTypes = method.getParameterTypes();
