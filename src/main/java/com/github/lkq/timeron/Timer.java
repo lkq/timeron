@@ -30,7 +30,7 @@ public class Timer {
      * create a stub instance for setting up measurement, the method call on stub should pass to Timer.measure()
      * e.g
      * SomeClass some = timer.interceptor(SomeClass.class);
-     * timer.measure(() -> some.someMethod());
+     * timer.measure(() -&gt; some.someMethod());
      *
      * @param clz the intercepting class
      * @param <T> generic type
