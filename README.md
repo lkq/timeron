@@ -2,9 +2,19 @@
 
 [![Build Status](https://travis-ci.org/lkq/timeron.svg?branch=master)](https://travis-ci.org/lkq/timeron)
 
-A simple framework for measuring performance in method call level using AOP
+A simple framework for measuring performance of method call using AOP
 
 ## Usage
+
+add dependency
+
+    <dependency>
+        <groupId>com.github.lkq</groupId>
+        <artifactId>timeron</artifactId>
+        <version>0.3.1</version>
+    </dependency>
+
+setup
 
     public interface UserService {
         User getUser(String name);
