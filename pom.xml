@@ -168,6 +168,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludePackageNames>com.github.lkq.timeron.thirdparty</excludePackageNames>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
