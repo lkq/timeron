@@ -45,7 +45,8 @@ public class Timer {
      * @param methodCall
      * @param <T>
      */
-    public <T> void measure(T methodCall) {
+    public void measure(Runnable methodCall) {
+        methodCall.run();
         context.completeIntercept();
     }
 

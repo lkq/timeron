@@ -29,8 +29,8 @@ public class MultiThreadSampleTest {
         Mother motherInterceptor = timer.interceptor(Mother.class);
         Father fatherInterceptor = timer.interceptor(Father.class);
 
-        timer.measure(motherInterceptor.declaredInMother(""));
-        timer.measure(fatherInterceptor.declaredInFather(""));
+        timer.measure(() -> motherInterceptor.declaredInMother(""));
+        timer.measure(() -> fatherInterceptor.declaredInFather(""));
 
         TimeRecorder motherMethodRecorder = new TimeRecorder();
         TimeRecorder fatherMethodRecorder = new TimeRecorder();

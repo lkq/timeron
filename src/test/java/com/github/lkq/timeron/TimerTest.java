@@ -8,7 +8,7 @@ class TimerTest {
     void canSetupMethodCallInterception() {
         Timer timer = new Timer();
         Son son = timer.interceptor(Son.class);
-        timer.measure(son.implInSon(""));
+        timer.measure(() -> son.implInSon(""));
     }
 
     @Test

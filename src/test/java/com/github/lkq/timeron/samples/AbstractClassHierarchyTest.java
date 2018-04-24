@@ -33,7 +33,7 @@ public class AbstractClassHierarchyTest {
     void measurementOnParentAbstractMethodCanBeInheritedByAllChild() throws JSONException {
         Timer timer = new Timer();
         Mother mother = timer.interceptor(Mother.class);
-        timer.measure(mother.declaredInMother(""));
+        timer.measure(() -> mother.declaredInMother(""));
 
         Son son = timer.on(new Son());
         Grandson grandson = timer.on(new Grandson());
@@ -62,7 +62,7 @@ public class AbstractClassHierarchyTest {
     void measurementOnChildImplementedAbstractMethodWillNotAffectOtherChildImplementation() throws JSONException {
         Timer timer = new Timer();
         Son sonInterceptor = timer.interceptor(Son.class);
-        timer.measure(sonInterceptor.declaredInMother(""));
+        timer.measure(() -> sonInterceptor.declaredInMother(""));
 
         Son son = timer.on(new Son());
         Grandson grandson = timer.on(new Grandson());

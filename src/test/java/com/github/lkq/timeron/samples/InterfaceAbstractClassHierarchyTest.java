@@ -50,7 +50,7 @@ public class InterfaceAbstractClassHierarchyTest {
     void measurementOnInterfaceMethodCanBeInheritedByAllAbstractClassAndItsChild() throws JSONException {
         Timer timer = new Timer();
         Grandma grandma = timer.interceptor(Grandma.class);
-        timer.measure(grandma.declaredInGrandmaImplInMother(""));
+        timer.measure(() -> grandma.declaredInGrandmaImplInMother(""));
 
         Son son = timer.on(new Son());
         Daughter daughter = timer.on(new Daughter());
@@ -78,7 +78,7 @@ public class InterfaceAbstractClassHierarchyTest {
     void measurementOnInterfaceMethodCanBeInheritedByGrandChild() throws JSONException {
         Timer timer = new Timer();
         Grandma grandma = timer.interceptor(Grandma.class);
-        timer.measure(grandma.declaredInGrandma(""));
+        timer.measure(() -> grandma.declaredInGrandma(""));
 
         Son son = timer.on(new Son());
         Daughter daughter = timer.on(new Daughter());
@@ -102,7 +102,7 @@ public class InterfaceAbstractClassHierarchyTest {
     void measurementOnInterfaceMethodUsingAbstractClassCanBeInheritedByAbstractClassChildren() throws JSONException {
         Timer timer = new Timer();
         Mother mother = timer.interceptor(Mother.class);
-        timer.measure(mother.declaredInGrandma(""));
+        timer.measure(() -> mother.declaredInGrandma(""));
 
         Son son = timer.on(new Son());
         Daughter daughter = timer.on(new Daughter());
@@ -128,7 +128,7 @@ public class InterfaceAbstractClassHierarchyTest {
     void measurementOnChildImplMethodWillNotAffectOtherImpl() throws JSONException {
         Timer timer = new Timer();
         Aunt interceptor = timer.interceptor(Aunt.class);
-        timer.measure(interceptor.declaredInGrandma(""));
+        timer.measure(() -> interceptor.declaredInGrandma(""));
 
         Aunt aunt = timer.on(new Aunt());
         Son son = timer.on(new Son());

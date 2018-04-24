@@ -44,7 +44,7 @@ public class ClassHierarchyTest {
     void measurementOnParentMethodCanBeInheritedByAllChild() throws JSONException {
         Timer timer = new Timer();
         Mother motherInterceptor = timer.interceptor(Mother.class);
-        timer.measure(motherInterceptor.implInMother(""));
+        timer.measure(() -> motherInterceptor.implInMother(""));
 
         Mother mother = timer.on(new Mother());
         Son son = timer.on(new Son());
@@ -74,7 +74,7 @@ public class ClassHierarchyTest {
     void measurementOnParentMethodCanBeInheritedByOverrideMethodInChild() throws JSONException {
         Timer timer = new Timer();
         Mother motherInterceptor = timer.interceptor(Mother.class);
-        timer.measure(motherInterceptor.implInMotherOverrideInSon(""));
+        timer.measure(() -> motherInterceptor.implInMotherOverrideInSon(""));
 
         Mother mother = timer.on(new Mother());
         Son son = timer.on(new Son());
@@ -104,7 +104,8 @@ public class ClassHierarchyTest {
     void measurementOnChildMethodWillNotAffectParentClassAndItsOtherSubClass() throws JSONException {
         Timer timer = new Timer();
         Son fakeSon = timer.interceptor(Son.class);
-        timer.measure(fakeSon.implInMother(""));
+
+        timer.measure(() -> fakeSon.implInMother(""));
 
         Mother mother = timer.on(new Mother());
         Son son = timer.on(new Son());
@@ -127,7 +128,7 @@ public class ClassHierarchyTest {
     void measurementOnChildOverrideMethodWillNotAffectParentClassAndItsOtherSubClass() throws JSONException {
         Timer timer = new Timer();
         Son fakeSon = timer.interceptor(Son.class);
-        timer.measure(fakeSon.implInMotherOverrideInSon(""));
+        timer.measure(() -> fakeSon.implInMotherOverrideInSon(""));
 
         Mother mother = timer.on(new Mother());
         Son son = timer.on(new Son());

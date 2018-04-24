@@ -26,13 +26,12 @@ public class Benchmark {
     private void runBenchmark(Task target, int repeatCount) {
         Timer timer = new Timer();
         Task interceptor = timer.interceptor(Task.class);
-        interceptor.runTask();
-        timer.measure(null);
+        timer.measure(() -> interceptor.runTask("", 1));
 
         Task task = timer.on(target);
 
         for (int i = 0; i < repeatCount; i++) {
-            task.runTask();
+            task.runTask("runBenchmark", 1);
         }
         String stats = timer.getStats();
         System.out.println(stats);
@@ -40,14 +39,14 @@ public class Benchmark {
     }
 
     public interface Task {
-        void runTask();
+        void runTask(String id, int count);
         TimeRecorder timeRecorder();
     }
 
     public static class CPUHeavyTask implements Task {
         TimeRecorder timeRecorder = new TimeRecorder();
         @Override
-        public void runTask() {
+        public void runTask(String id, int count) {
             // calculate double multiplication for 1 million times
             long startTime = System.nanoTime();
             double value;
@@ -66,7 +65,7 @@ public class Benchmark {
     public static class IOHeavyTask implements Task {
         TimeRecorder timeRecorder = new TimeRecorder();
         @Override
-        public void runTask() {
+        public void runTask(String id, int count) {
             long startTime = System.nanoTime();
             try {
                 Thread.sleep(random.nextInt(20));

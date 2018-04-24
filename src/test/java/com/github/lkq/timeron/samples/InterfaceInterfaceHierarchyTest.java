@@ -53,9 +53,9 @@ public class InterfaceInterfaceHierarchyTest {
     void measurementOnMultipleGrandParentInterfaceWillBeInheritedByAllChildren() throws JSONException {
         Timer timer = new Timer();
         Grandma grandma = timer.interceptor(Grandma.class);
-        timer.measure(grandma.declaredInGrandma(""));
+        timer.measure(() -> grandma.declaredInGrandma(""));
         Grandpa grandpa = timer.interceptor(Grandpa.class);
-        timer.measure(grandpa.declaredInGrandpa(""));
+        timer.measure(() -> grandpa.declaredInGrandpa(""));
 
         Son son = timer.on(new Son());
         Nephew nephew = timer.on(new Nephew());
@@ -82,8 +82,8 @@ public class InterfaceInterfaceHierarchyTest {
     void measurementOnGrandParentMethodUsingParentInterfaceWillBeInheritedByItsChildren() throws JSONException {
         Timer timer = new Timer();
         Mother mother = timer.interceptor(Mother.class);
-        timer.measure(mother.declaredInGrandma(""));
-        timer.measure(mother.declaredInGrandpa(""));
+        timer.measure(() -> mother.declaredInGrandma(""));
+        timer.measure(() -> mother.declaredInGrandpa(""));
 
         Son son = timer.on(new Son());
         Nephew nephew = timer.on(new Nephew());
@@ -109,8 +109,8 @@ public class InterfaceInterfaceHierarchyTest {
         Timer timer = new Timer();
         Father father = timer.interceptor(Father.class);
         Mother mother = timer.interceptor(Mother.class);
-        timer.measure(father.declaredInFather(""));
-        timer.measure(mother.declaredInMother(""));
+        timer.measure(() -> father.declaredInFather(""));
+        timer.measure(() -> mother.declaredInMother(""));
 
         Son son = timer.on(new Son());
 
@@ -133,7 +133,7 @@ public class InterfaceInterfaceHierarchyTest {
     void measurementOnParentMethodUsingChildClassWillNotAffectOtherChildren() throws JSONException {
         Timer timer = new Timer();
         Son sonInterceptor = timer.interceptor(Son.class);
-        timer.measure(sonInterceptor.declaredInGrandma(""));
+        timer.measure(() -> sonInterceptor.declaredInGrandma(""));
 
         Son son = timer.on(new Son());
         Nephew nephew = timer.on(new Nephew());

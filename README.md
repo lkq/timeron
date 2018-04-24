@@ -12,13 +12,13 @@ A simple framework for measuring performance in method call level using AOP
     public class UserService {
         public User getUser(String name) {
          //...
-         }
+        }
     }
 
     // setup
     Timer timer = new Timer();
     UserSerivce interceptor = timer.interceptor(UserSerivce.class)
-    timer.measure(interceptor.getUser(""));
+    timer.measure(() -> interceptor.getUser(""));
 
     UserService userService = timer.on(new UserServiceImpl())
 
@@ -40,7 +40,7 @@ more sample usage could be found in [here](src/test/java/com/github/lkq/timeron/
 
 
 ## TODO List
-- support void methods
+- ~~support void methods~~
 - add benchmark tests
 - detach the measurement handling logic from the calling thread
 - redesign result formatting
