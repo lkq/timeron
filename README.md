@@ -6,6 +6,8 @@ A simple framework for measuring performance of method call using AOP
 
 ## Usage
 
+available in maven [central](https://repo1.maven.org/maven2/com/github/lkq/timeron/)
+
 add dependency
 
     <dependency>
