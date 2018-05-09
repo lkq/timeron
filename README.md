@@ -21,13 +21,13 @@ setup
     public interface UserService {
         User getUser(String name);
     }
-    public class UserService {
+    public class UserServiceImpl implements UserService {
         public User getUser(String name) {
          //...
         }
     }
 
-    // setup
+    // setup measurement
     Timer timer = new Timer();
     UserSerivce interceptor = timer.interceptor(UserSerivce.class)
     timer.measure(() -> interceptor.getUser(""));
